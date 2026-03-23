@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wilde Automations | Custom Business Solutions</title>
+    <title>Wildrose Automations | Custom Business Solutions</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #667eea;
-            --primary-dark: #764ba2;
+            --primary-dark: #DC2626;
             --primary-light: #a78bfa;
             --dark: #111827;
             --dark-gray: #1f2937;
@@ -18,7 +18,7 @@
             --white: #ffffff;
             --border: #e5e7eb;
             --bg-light: #f9fafb;
-            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg-light); color: var(--dark); line-height: 1.6; }
@@ -27,15 +27,15 @@
         .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
         .nav-container { max-width: 1100px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.5px; color: var(--dark); display: flex; align-items: center; gap: 10px; }
-        .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; }
-        .logo span { background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; }
+        .logo span { background: linear-gradient(135deg, #EF4444, #DC2626); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         nav { display: flex; gap: 32px; }
         nav a { color: var(--gray); text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: color 0.2s; }
         nav a:hover { color: var(--dark); }
         
-        .hero { padding: 140px 0 80px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); color: white; text-align: center; position: relative; overflow: hidden; }
-        .hero::before { content: ''; position: absolute; top: -50%; right: -20%; width: 800px; height: 800px; background: radial-gradient(circle, rgba(102,126,234,0.3) 0%, transparent 70%); border-radius: 50%; }
-        .hero::after { content: ''; position: absolute; bottom: -30%; left: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(118,75,162,0.2) 0%, transparent 70%); border-radius: 50%; }
+        .hero { padding: 140px 0 80px; background: linear-gradient(135deg, #7F1D1D 0%, #991B1B 50%, #7F1D1D 100%); color: white; text-align: center; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: -50%; right: -20%; width: 800px; height: 800px; background: radial-gradient(circle, rgba(239,68,68,0.3) 0%, transparent 70%); border-radius: 50%; }
+        .hero::after { content: ''; position: absolute; bottom: -30%; left: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(220,38,38,0.2) 0%, transparent 70%); border-radius: 50%; }
         .hero > .container { position: relative; z-index: 1; }
         .hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 16px; letter-spacing: -1px; line-height: 1.15; }
         .hero h1 span { color: var(--primary-light); }
@@ -43,12 +43,12 @@
         .hero-cta { display: flex; gap: 14px; justify-content: center; }
         
         .btn { padding: 13px 26px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; font-size: 0.95rem; }
-        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
-        .btn-primary:hover { background: linear-gradient(135deg, #5a6fd6 0%, #6a4190 100%); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(102,126,234,0.4); }
+        .btn-primary { background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%); color: white; }
+        .btn-primary:hover { background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(239,68,68,0.4); }
         .btn-outline { border: 2px solid var(--gray); color: white; }
         .btn-outline:hover { border-color: white; background: rgba(255,255,255,0.05); }
         
-        .stats { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 48px 0; }
+        .stats { background: linear-gradient(135deg, #7F1D1D 0%, #991B1B 100%); padding: 48px 0; }
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: center; }
         .stat-value { font-size: 2.25rem; font-weight: 700; color: var(--primary-light); }
         .stat-label { color: var(--light-gray); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -257,7 +257,7 @@
     
     <footer>
         <div class="container">
-            <p><i class="fas fa-bolt"></i> Wilde Automations | Custom Business Solutions</p>
+            <p><i class="fas fa-bolt"></i> Wildrose Automations | Custom Business Solutions</p>
         </div>
     </footer>
 </body>
