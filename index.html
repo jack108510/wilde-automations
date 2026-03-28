@@ -340,6 +340,25 @@
             `;
             document.head.appendChild(style);
 
+            // Add quick-reply chip styles
+            const extraStyle = document.createElement('style');
+            extraStyle.textContent = `
+                #chat-quick-replies {
+                    padding: 10px 14px 12px;
+                    background: #f9fafb;
+                    display: flex; gap: 8px; flex-wrap: wrap;
+                    border-top: 1px solid #f0f0f0;
+                }
+                .qr-chip {
+                    padding: 6px 13px; border-radius: 20px; font-size: 0.8rem;
+                    font-weight: 600; cursor: pointer; border: 1.5px solid #EF4444;
+                    color: #EF4444; background: #fff; font-family: inherit;
+                    transition: all 0.15s; white-space: nowrap;
+                }
+                .qr-chip:hover { background: #EF4444; color: white; }
+            `;
+            document.head.appendChild(extraStyle);
+
             const widget = document.createElement('div');
             widget.id = 'chat-widget';
             widget.innerHTML = `
@@ -353,9 +372,14 @@
                         <div id="chat-close">✕</div>
                     </div>
                     <div id="chat-messages">
-                        <div class="msg bot">Hey! 👋 I'm Rose, your Wildrose AI assistant.<br><br>Want to see how automation can save your business 5–10 hours a week?<div class="msg-time">Just now</div></div>
+                        <div class="msg bot">Hey! 👋 I'm Rose, your Wildrose AI assistant.<br><br>How can I help you today?<div class="msg-time">Just now</div></div>
                     </div>
                     <div id="chat-typing"><span></span><span></span><span></span></div>
+                    <div id="chat-quick-replies">
+                        <button class="qr-chip" data-action="demo">📅 Book a Demo</button>
+                        <button class="qr-chip" data-action="services">⚙️ Our Services</button>
+                        <button class="qr-chip" data-action="pricing">💰 Pricing</button>
+                    </div>
                     <div id="chat-booking-form">
                         <div style="font-size:0.8rem;font-weight:600;color:#374151;margin-bottom:2px;">📅 Book your free 15-min demo</div>
                         <input id="book-name" type="text" placeholder="Your name" />
@@ -370,7 +394,7 @@
                         <button id="chat-book-submit">Book My Demo →</button>
                     </div>
                     <div id="chat-input-row">
-                        <input id="chat-input" type="text" placeholder="Type a message..." autocomplete="off" />
+                        <input id="chat-input" type="text" placeholder="Or just type a message..." autocomplete="off" />
                         <button id="chat-send">
                             <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                         </button>
@@ -382,38 +406,92 @@
             `;
             document.body.appendChild(widget);
 
-            const box       = document.getElementById('chat-box');
-            const bubble    = document.getElementById('chat-bubble');
-            const closeBtn  = document.getElementById('chat-close');
-            const input     = document.getElementById('chat-input');
-            const sendBtn   = document.getElementById('chat-send');
-            const messages  = document.getElementById('chat-messages');
-            const typing    = document.getElementById('chat-typing');
-            const bookForm  = document.getElementById('chat-booking-form');
-            const bookSubmit= document.getElementById('chat-book-submit');
+            const box        = document.getElementById('chat-box');
+            const bubble     = document.getElementById('chat-bubble');
+            const closeBtn   = document.getElementById('chat-close');
+            const input      = document.getElementById('chat-input');
+            const sendBtn    = document.getElementById('chat-send');
+            const messages   = document.getElementById('chat-messages');
+            const typing     = document.getElementById('chat-typing');
+            const bookForm   = document.getElementById('chat-booking-form');
+            const bookSubmit = document.getElementById('chat-book-submit');
+            const quickReplies = document.getElementById('chat-quick-replies');
 
-            let state = 'chat'; // 'chat' | 'booking' | 'done'
+            let state = 'chat';
 
             bubble.addEventListener('click', () => {
                 box.classList.toggle('open');
-                if (box.classList.contains('open')) {
-                    setTimeout(() => showBookingPrompt(), 1800);
-                }
+                if (box.classList.contains('open')) input.focus();
             });
             closeBtn.addEventListener('click', () => box.classList.remove('open'));
 
+            // Quick reply chips
+            quickReplies.querySelectorAll('.qr-chip').forEach(btn => {
+                btn.addEventListener('click', () => handleQuickReply(btn.dataset.action));
+            });
+
+            function handleQuickReply(action) {
+                quickReplies.style.display = 'none';
+                if (action === 'demo') {
+                    addMsg('📅 Book a Demo', 'user');
+                    showTyping(700).then(() => {
+                        addMsg("Perfect! Fill in your details below and I'll get you locked in. 👇", 'bot');
+                        setTimeout(openBookingForm, 400);
+                    });
+                } else if (action === 'services') {
+                    addMsg('⚙️ Our Services', 'user');
+                    showTyping(800).then(() => {
+                        addMsg(`Here's what we do:<br><br>
+                            <strong>📲 AI Follow-Ups</strong> — Automated texts & emails after every job<br>
+                            <strong>📅 Booking Automation</strong> — Confirmations, reminders & reschedules<br>
+                            <strong>⭐ Review Requests</strong> — Auto-send after service completion<br>
+                            <strong>💬 Lead Capture</strong> — Respond to new inquiries 24/7<br>
+                            <strong>📊 Custom Workflows</strong> — Built around your business<br><br>
+                            Want to see it in action?`, 'bot');
+                        setTimeout(() => showDemoChip(), 600);
+                    });
+                } else if (action === 'pricing') {
+                    addMsg('💰 Pricing', 'user');
+                    showTyping(800).then(() => {
+                        addMsg(`Our plans:<br><br>
+                            <strong>Starter — $297/mo</strong><br>Follow-ups, reminders & review requests<br><br>
+                            <strong>Growth — $497/mo</strong><br>Everything in Starter + lead capture & custom workflows<br><br>
+                            <strong>Pro — $797/mo</strong><br>Full AI automation suite, priority support & monthly strategy call<br><br>
+                            All plans include setup. Most clients see ROI in the first month.`, 'bot');
+                        setTimeout(() => showDemoChip(), 600);
+                    });
+                }
+            }
+
+            function showDemoChip() {
+                const wrap = document.createElement('div');
+                wrap.style.cssText = 'padding: 4px 16px 12px; background:#f9fafb;';
+                const btn = document.createElement('button');
+                btn.className = 'qr-chip';
+                btn.textContent = '📅 Book a Free Demo';
+                btn.onclick = () => {
+                    wrap.remove();
+                    addMsg('📅 Book a Free Demo', 'user');
+                    showTyping(600).then(() => {
+                        addMsg("Great choice! Fill in your details below 👇", 'bot');
+                        setTimeout(openBookingForm, 400);
+                    });
+                };
+                wrap.appendChild(btn);
+                messages.after(wrap);
+                messages.scrollTop = messages.scrollHeight;
+            }
+
             function now() { return new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}); }
 
-            function addMsg(html, sender, delay=0) {
+            function addMsg(html, sender) {
                 return new Promise(resolve => {
-                    setTimeout(() => {
-                        const d = document.createElement('div');
-                        d.className = 'msg ' + sender;
-                        d.innerHTML = html + `<div class="msg-time">${now()}</div>`;
-                        messages.appendChild(d);
-                        messages.scrollTop = messages.scrollHeight;
-                        resolve();
-                    }, delay);
+                    const d = document.createElement('div');
+                    d.className = 'msg ' + sender;
+                    d.innerHTML = html + `<div class="msg-time">${now()}</div>`;
+                    messages.appendChild(d);
+                    messages.scrollTop = messages.scrollHeight;
+                    resolve();
                 });
             }
 
@@ -423,27 +501,8 @@
                 return new Promise(r => setTimeout(() => { typing.style.display = 'none'; r(); }, ms));
             }
 
-            function showBookingPrompt() {
-                if (state !== 'chat') return;
-                showTyping(900).then(() => {
-                    addMsg('Would you like to book a free 15-min demo? I can lock in a time right now 👇', 'bot');
-                    setTimeout(() => {
-                        const btn = document.createElement('button');
-                        btn.className = 'chat-btn';
-                        btn.textContent = '📅 Yes, book a demo!';
-                        btn.onclick = openBookingForm;
-                        const wrap = document.createElement('div');
-                        wrap.style.cssText = 'padding:0 16px 12px; background:#f9fafb;';
-                        wrap.appendChild(btn);
-                        messages.after(wrap);
-                        messages.scrollTop = messages.scrollHeight;
-                    }, 400);
-                });
-            }
-
             function openBookingForm() {
                 state = 'booking';
-                // hide input row, show form
                 document.getElementById('chat-input-row').style.display = 'none';
                 bookForm.classList.add('show');
                 messages.scrollTop = messages.scrollHeight;
