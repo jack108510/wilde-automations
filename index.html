@@ -453,11 +453,7 @@
                 } else if (action === 'pricing') {
                     addMsg('💰 Pricing', 'user');
                     showTyping(800).then(() => {
-                        addMsg(`Our plans:<br><br>
-                            <strong>Starter — $297/mo</strong><br>Follow-ups, reminders & review requests<br><br>
-                            <strong>Growth — $497/mo</strong><br>Everything in Starter + lead capture & custom workflows<br><br>
-                            <strong>Pro — $797/mo</strong><br>Full AI automation suite, priority support & monthly strategy call<br><br>
-                            All plans include setup. Most clients see ROI in the first month.`, 'bot');
+                        addMsg(`Honestly, pricing varies quite a bit project to project — every business is different and we build custom solutions, not cookie-cutter packages.<br><br>The best way to get an accurate number is a quick 15-min demo. We'll figure out exactly what you need and give you a straight answer. No pressure, no pushy sales stuff.`, 'bot');
                         setTimeout(() => showDemoChip(), 600);
                     });
                 }
