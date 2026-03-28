@@ -250,7 +250,7 @@
                     transition: transform 0.2s, box-shadow 0.2s;
                 }
                 #chat-bubble:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(239,68,68,0.55); }
-                #chat-bubble svg { width: 26px; height: 26px; fill: white; transition: opacity 0.2s; }
+                #chat-bubble svg { width: 26px; height: 26px; fill: white; }
                 #chat-box {
                     position: absolute; bottom: 70px; right: 0;
                     width: 340px; background: #fff; border-radius: 16px;
@@ -278,7 +278,7 @@
                 #chat-close { cursor: pointer; opacity: 0.8; font-size: 20px; line-height: 1; }
                 #chat-close:hover { opacity: 1; }
                 #chat-messages {
-                    padding: 16px; flex: 1; overflow-y: auto; max-height: 280px;
+                    padding: 16px; flex: 1; overflow-y: auto; max-height: 260px;
                     display: flex; flex-direction: column; gap: 10px;
                     background: #f9fafb;
                 }
@@ -286,6 +286,14 @@
                 .msg.bot { background: #fff; color: #111827; align-self: flex-start; box-shadow: 0 1px 4px rgba(0,0,0,0.08); border-bottom-left-radius: 3px; }
                 .msg.user { background: #EF4444; color: white; align-self: flex-end; border-bottom-right-radius: 3px; }
                 .msg-time { font-size: 0.68rem; opacity: 0.55; margin-top: 3px; }
+                .chat-btn {
+                    display: inline-block; margin-top: 8px; padding: 7px 14px;
+                    background: linear-gradient(135deg, #EF4444, #DC2626);
+                    color: white; border: none; border-radius: 20px;
+                    font-size: 0.8rem; font-weight: 600; cursor: pointer;
+                    font-family: inherit; transition: transform 0.15s;
+                }
+                .chat-btn:hover { transform: scale(1.04); }
                 #chat-input-row {
                     display: flex; align-items: center; gap: 8px;
                     padding: 12px 14px; border-top: 1px solid #f0f0f0; background: #fff;
@@ -294,9 +302,9 @@
                     flex: 1; border: 1.5px solid #e5e7eb; border-radius: 24px;
                     padding: 9px 14px; font-size: 0.875rem; outline: none;
                     transition: border-color 0.2s; font-family: inherit;
-                    resize: none; line-height: 1.4;
                 }
                 #chat-input:focus { border-color: #EF4444; }
+                #chat-input:disabled { background: #f9fafb; color: #9ca3af; }
                 #chat-send {
                     width: 36px; height: 36px; border-radius: 50%;
                     background: linear-gradient(135deg, #EF4444, #DC2626);
@@ -305,7 +313,26 @@
                 }
                 #chat-send:hover { transform: scale(1.1); }
                 #chat-send svg { width: 16px; height: 16px; fill: white; }
-                #chat-typing { display: none; align-items: center; gap: 5px; padding: 4px 0; }
+                /* Booking form inside chat */
+                #chat-booking-form {
+                    background: #fff; border-top: 1px solid #f0f0f0;
+                    padding: 14px; display: none; flex-direction: column; gap: 8px;
+                }
+                #chat-booking-form.show { display: flex; }
+                #chat-booking-form input, #chat-booking-form select {
+                    border: 1.5px solid #e5e7eb; border-radius: 8px;
+                    padding: 8px 12px; font-size: 0.85rem; outline: none;
+                    font-family: inherit; transition: border-color 0.2s;
+                }
+                #chat-booking-form input:focus, #chat-booking-form select:focus { border-color: #EF4444; }
+                #chat-book-submit {
+                    background: linear-gradient(135deg, #EF4444, #DC2626);
+                    color: white; border: none; border-radius: 8px;
+                    padding: 9px; font-size: 0.875rem; font-weight: 600;
+                    cursor: pointer; font-family: inherit; transition: opacity 0.2s;
+                }
+                #chat-book-submit:hover { opacity: 0.9; }
+                #chat-typing { display: none; padding: 0 16px 8px; align-items: center; gap: 5px; background: #f9fafb; }
                 #chat-typing span { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #9ca3af; animation: bounce 1.2s infinite; }
                 #chat-typing span:nth-child(2) { animation-delay: 0.2s; }
                 #chat-typing span:nth-child(3) { animation-delay: 0.4s; }
@@ -326,9 +353,22 @@
                         <div id="chat-close">✕</div>
                     </div>
                     <div id="chat-messages">
-                        <div class="msg bot">Hey! 👋 I'm Rose, your Wildrose AI assistant. What can I help you automate today?<div class="msg-time">Just now</div></div>
+                        <div class="msg bot">Hey! 👋 I'm Rose, your Wildrose AI assistant.<br><br>Want to see how automation can save your business 5–10 hours a week?<div class="msg-time">Just now</div></div>
                     </div>
                     <div id="chat-typing"><span></span><span></span><span></span></div>
+                    <div id="chat-booking-form">
+                        <div style="font-size:0.8rem;font-weight:600;color:#374151;margin-bottom:2px;">📅 Book your free 15-min demo</div>
+                        <input id="book-name" type="text" placeholder="Your name" />
+                        <input id="book-email" type="email" placeholder="Email address" />
+                        <input id="book-company" type="text" placeholder="Business name" />
+                        <select id="book-time">
+                            <option value="">Best time to reach you</option>
+                            <option>Morning (9am–12pm)</option>
+                            <option>Afternoon (12pm–4pm)</option>
+                            <option>Evening (4pm–7pm)</option>
+                        </select>
+                        <button id="chat-book-submit">Book My Demo →</button>
+                    </div>
                     <div id="chat-input-row">
                         <input id="chat-input" type="text" placeholder="Type a message..." autocomplete="off" />
                         <button id="chat-send">
@@ -342,46 +382,135 @@
             `;
             document.body.appendChild(widget);
 
-            const box = document.getElementById('chat-box');
-            const bubble = document.getElementById('chat-bubble');
-            const closeBtn = document.getElementById('chat-close');
-            const input = document.getElementById('chat-input');
-            const sendBtn = document.getElementById('chat-send');
-            const messages = document.getElementById('chat-messages');
-            const typing = document.getElementById('chat-typing');
+            const box       = document.getElementById('chat-box');
+            const bubble    = document.getElementById('chat-bubble');
+            const closeBtn  = document.getElementById('chat-close');
+            const input     = document.getElementById('chat-input');
+            const sendBtn   = document.getElementById('chat-send');
+            const messages  = document.getElementById('chat-messages');
+            const typing    = document.getElementById('chat-typing');
+            const bookForm  = document.getElementById('chat-booking-form');
+            const bookSubmit= document.getElementById('chat-book-submit');
 
-            bubble.addEventListener('click', () => { box.classList.toggle('open'); if (box.classList.contains('open')) input.focus(); });
+            let state = 'chat'; // 'chat' | 'booking' | 'done'
+
+            bubble.addEventListener('click', () => {
+                box.classList.toggle('open');
+                if (box.classList.contains('open')) {
+                    setTimeout(() => showBookingPrompt(), 1800);
+                }
+            });
             closeBtn.addEventListener('click', () => box.classList.remove('open'));
 
-            function addMsg(text, sender) {
-                const d = document.createElement('div');
-                d.className = 'msg ' + sender;
-                d.innerHTML = text + '<div class="msg-time">Just now</div>';
-                messages.appendChild(d);
+            function now() { return new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}); }
+
+            function addMsg(html, sender, delay=0) {
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        const d = document.createElement('div');
+                        d.className = 'msg ' + sender;
+                        d.innerHTML = html + `<div class="msg-time">${now()}</div>`;
+                        messages.appendChild(d);
+                        messages.scrollTop = messages.scrollHeight;
+                        resolve();
+                    }, delay);
+                });
+            }
+
+            function showTyping(ms) {
+                typing.style.display = 'flex';
+                messages.scrollTop = messages.scrollHeight;
+                return new Promise(r => setTimeout(() => { typing.style.display = 'none'; r(); }, ms));
+            }
+
+            function showBookingPrompt() {
+                if (state !== 'chat') return;
+                showTyping(900).then(() => {
+                    addMsg('Would you like to book a free 15-min demo? I can lock in a time right now 👇', 'bot');
+                    setTimeout(() => {
+                        const btn = document.createElement('button');
+                        btn.className = 'chat-btn';
+                        btn.textContent = '📅 Yes, book a demo!';
+                        btn.onclick = openBookingForm;
+                        const wrap = document.createElement('div');
+                        wrap.style.cssText = 'padding:0 16px 12px; background:#f9fafb;';
+                        wrap.appendChild(btn);
+                        messages.after(wrap);
+                        messages.scrollTop = messages.scrollHeight;
+                    }, 400);
+                });
+            }
+
+            function openBookingForm() {
+                state = 'booking';
+                // hide input row, show form
+                document.getElementById('chat-input-row').style.display = 'none';
+                bookForm.classList.add('show');
                 messages.scrollTop = messages.scrollHeight;
             }
 
-            const responses = [
-                "Great question! We can automate that for you. Want to book a quick 15-min call to see how?",
-                "We've helped businesses save 5–10 hours a week with automation. What's taking up most of your time right now?",
-                "Totally! Our AI handles follow-ups, bookings, and customer communication 24/7. Want a demo?",
-                "That's exactly what we specialize in. Fill out the contact form below and we'll reach out today!",
-                "Love it — let's set something up. Drop your email in the form below or just tell me more here."
+            bookSubmit.addEventListener('click', async () => {
+                const name    = document.getElementById('book-name').value.trim();
+                const email   = document.getElementById('book-email').value.trim();
+                const company = document.getElementById('book-company').value.trim();
+                const time    = document.getElementById('book-time').value;
+
+                if (!name || !email) {
+                    document.getElementById('book-name').style.borderColor = name ? '#e5e7eb' : '#EF4444';
+                    document.getElementById('book-email').style.borderColor = email ? '#e5e7eb' : '#EF4444';
+                    return;
+                }
+
+                bookSubmit.textContent = 'Booking...';
+                bookSubmit.disabled = true;
+
+                try {
+                    await fetch('https://n8n.wildeautomations.com/webhook/2cb70635-d9e0-4b0e-9cf9-03d2cb007288', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            type: 'demo_booking',
+                            name, email, company, preferred_time: time,
+                            timestamp: new Date().toISOString(),
+                            source: 'chat_widget'
+                        })
+                    });
+                } catch(e) {}
+
+                // Show success
+                bookForm.classList.remove('show');
+                document.getElementById('chat-input-row').style.display = 'flex';
+                input.disabled = true;
+                sendBtn.disabled = true;
+                state = 'done';
+
+                await showTyping(800);
+                await addMsg(`✅ You're booked, ${name}! We'll reach out to <strong>${email}</strong> within the hour to confirm your demo time.<br><br>Talk soon! 🌹`, 'bot');
+            });
+
+            // Regular chat flow
+            const replies = [
+                { test: /automat|save time|manual|follow.?up/i, msg: "We handle that automatically — follow-ups, confirmations, reminders, all of it. Want to see it live?" },
+                { test: /price|cost|how much/i, msg: "Plans start at $297/month with a full setup. Most clients save more than that in the first week. Want a demo to see the ROI?" },
+                { test: /yes|sure|demo|book|interested|sounds good/i, msg: null, action: openBookingForm },
+                { test: /no|not (right now|interested)/i, msg: "No worries at all! Feel free to browse or reach out anytime. 😊" },
             ];
-            let rIdx = 0;
 
             async function sendMessage() {
+                if (state === 'booking' || state === 'done') return;
                 const text = input.value.trim();
                 if (!text) return;
-                addMsg(text, 'user');
                 input.value = '';
-                typing.style.display = 'flex';
-                messages.scrollTop = messages.scrollHeight;
-                setTimeout(() => {
-                    typing.style.display = 'none';
-                    addMsg(responses[rIdx % responses.length], 'bot');
-                    rIdx++;
-                }, 1200 + Math.random() * 600);
+                await addMsg(text, 'user');
+                await showTyping(900 + Math.random() * 500);
+
+                const match = replies.find(r => r.test.test(text));
+                if (match) {
+                    if (match.action) { match.action(); return; }
+                    await addMsg(match.msg, 'bot');
+                } else {
+                    await addMsg("Great question! Our AI handles that automatically for most businesses. Want to book a quick 15-min demo to see exactly how?", 'bot');
+                }
             }
 
             sendBtn.addEventListener('click', sendMessage);
