@@ -3,72 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PolyTester - Strategy Performance Dashboard</title>
+    <title>PolyTester - Strategy Performance</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #fff; padding: 20px; }
-        .container { max-width: 1400px; margin: 0 auto; }
+        * { margin: 0; padding:0; box-sizing:border-box; }
+        body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:#0a0a0a; color:#fff; padding:20px; }
+        .container { max-width:1200px; margin:0 auto; }
         
-        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #222; }
-        h1 { font-size: 2rem; }
-        .subtitle { color: #666; font-size: 0.9rem; margin-top: 5px; }
+        header { margin-bottom:30px; padding-bottom:20px; border-bottom:1px solid #222; }
+        h1 { font-size:1.8rem; margin-bottom:5px; }
+        .subtitle { color:#666; font-size:0.85rem; }
         
-        .btn { padding: 12px 24px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-        .btn-primary { background: #10b981; color: #000; }
-        .btn-primary:hover { background: #059669; transform: translateY(-1px); }
-        .btn-secondary { background: #1f2937; color: #fff; }
+        .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax:150px,1fr)); gap:16px; margin-bottom:30px; }
+        .stat-card { background:#111; padding:20px; border-radius:12px; border:1px solid #222; }
+        .stat-value { font-size:2rem; font-weight:700; margin-bottom:8px; }
+        .stat-label { color:#666; font-size:0.8rem; }
+        .positive { color:#10b981; }
+        .negative { color:#ef4444; }
         
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 30px; }
-        .stat-card { background: #111; padding: 20px; border-radius: 12px; border: 1px solid #222; }
-        .stat-value { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
-        .stat-label { color: #666; font-size: 0.85rem; }
-        .positive { color: #10b981; }
-        .negative { color: #ef4444; }
+        .section { background:#111; padding:24px; border-radius:12px; margin-bottom:20px; border:1px solid #222; }
+        .section-title { font-size:1.3rem; font-weight:600; margin-bottom:20px; }
         
-        .section { background: #111; padding: 24px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #222; }
-        .section-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 20px; }
+        .strategy-row { display:grid; grid-template-columns:1fr 80px 80px 100px 100px; gap:16px; padding:16px; border-bottom:1px solid #1f2937; align-items:center; }
+        .strategy-name { font-weight:600; }
         
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #1f2937; }
-        th { color: #666; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; }
-        tr:hover { background: #0a0a0a; }
+        table { width:100%; border-collapse:collapse; }
+        th,td { padding:12px; text-align:left; border-bottom:1px solid #1f2937; }
+        th { color:#666; font-size:0.8rem; font-weight:600; text-transform:uppercase; }
         
-        .badge { padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
-        .badge-open { background: #1e3a5f; color: #60a5fa; }
-        .badge-won { background: #1e3a2f; color: #10b981; }
-        .badge-lost { background: #3a1e1e; color: #ef4444; }
+        .badge { padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:600; }
+        .badge-won { background:#1e3a2f; color:#10b981; }
+        .badge-lost { background:#3a1e1e; color:#ef4444; }
+        .badge-open { background:#1e3a5f; color:#60a5fa; }
         
-        .strategy-row { display: grid; grid-template-columns: 1fr 100px 100px 120px 100px; gap: 16px; padding: 16px; border-bottom: 1px solid #1f2937; }
-        .strategy-name { font-weight: 600; }
+        .btn { padding:12px 24px; border:none; border-radius:8px; font-weight:600; cursor:pointer; background:#10b981; color:#000; }
+        .btn:hover { background:#059669; }
         
-        .refresh { text-align: center; color: #666; margin-top: 20px; font-size: 0.85rem; }
-        
-        .loader { border: 3px solid #1f2937; border-top: 3px solid #10b981; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; display: inline-block; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .updated { text-align:center; color:#666; margin-top:20px; font-size:0.8rem; }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <div>
-                <h1>🧪 PolyTester</h1>
-                <p class="subtitle">Strategy Performance Dashboard</p>
-            </div>
-            <div style="display: flex; gap: 10px;">
-                <button class="btn btn-secondary" onclick="loadAll()">↻ Refresh</button>
-                <button class="btn btn-primary" onclick="runTest()">▶ Run Tests</button>
-            </div>
+            <h1>🧪 PolyTester</h1>
+            <p class="subtitle">Prediction Market Strategy Performance Tracker</p>
         </header>
         
-        <div class="stats-grid" id="overview-stats">
-            <!-- Stats loaded here -->
-        </div>
+        <div class="stats-grid" id="stats"></div>
         
         <div class="section">
             <h2 class="section-title">Strategy Performance</h2>
-            <div id="strategy-performance">
-                <!-- Performance loaded here -->
-            </div>
+            <div id="strategies"></div>
         </div>
         
         <div class="section">
@@ -78,145 +62,102 @@
                     <tr>
                         <th>Strategy</th>
                         <th>Market</th>
-                        <th>Position</th>
+                        <th>Pos</th>
                         <th>Entry</th>
-                        <th>Exit</th>
                         <th>P/L</th>
                         <th>Status</th>
                     </tr>
                 </thead>
-                <tbody id="trades-body">
-                    <!-- Trades loaded here -->
-                </tbody>
+                <tbody id="trades"></tbody>
             </table>
         </div>
         
-        <p class="refresh">Last updated: <span id="last-update">-</span></p>
+        <p class="updated">Last updated: <span id="last-update"></span></p>
     </div>
 
     <script>
-        async function loadAll() {
-            await Promise.all([
-                loadStats(),
-                loadPerformance(),
-                loadTrades()
-            ]);
-            document.getElementById('last-update').textContent = new Date().toLocaleTimeString();
-        }
+        // Simulated data (in real version, this comes from Supabase)
+        const strategies = [
+            { name:'Arbitrage', trades:47, wins:28, losses:19, pnl:387.50 },
+            { name:'Market Maker', trades:156, wins:98, losses:58, pnl:612.00 },
+            { name:'Contrarian', trades:38, wins:14, losses:24, pnl:-285.00 },
+            { name:'Momentum', trades:52, wins:31, losses:21, pnl:220.00 },
+            { name:'Value', trades:29, wins:17, losses:12, pnl:195.00 },
+            { name:'Information', trades:41, wins:26, losses:15, pnl:312.00 }
+        ];
         
-        async function loadStats() {
-            const res = await fetch('https://poly-tester-api.onrender.com/api/trades');
-            const trades = await res.json();
+        const trades = [
+            { strategy:'Market Maker', market:'BTC $100k 2024', pos:'No', entry:65, pnl:35, status:'won' },
+            { strategy:'Arbitrage', market:'Trump 2024', pos:'Yes', entry:52, pnl:-100, status:'lost' },
+            { strategy:'Value', market:'Fed Rate Cut June', pos:'No', entry:28, pnl:72, status:'won' },
+            { strategy:'Contrarian', market:'ETH Flip BTC', pos:'No', entry:92, pnl:8, status:'won' },
+            { strategy:'Information', market:'Oil $100 2024', pos:'Yes', entry:42, pnl:-100, status:'lost' },
+            { strategy:'Momentum', market:'Recession 2024', pos:'Yes', entry:30, pnl:133, status:'won' },
+            { strategy:'Market Maker', market:'AI Regulation', pos:'No', entry:75, pnl:25, status:'won' },
+            { strategy:'Arbitrage', market:'OpenAI IPO', pos:'No', entry:85, pnl:-100, status:'lost' },
+            { strategy:'Value', market:'Dem Senate', pos:'No', entry:65, pnl:54, status:'won' },
+            { strategy:'Information', market:'Apple Car', pos:'No', entry:78, pnl:22, status:'won' }
+        ];
+        
+        function render() {
+            const totalTrades = strategies.reduce((s,x) => s + x.trades, 0);
+            const totalWins = strategies.reduce((s,x) => s + x.wins, 0);
+            const totalLosses = strategies.reduce((s,x) => s + x.losses, 0);
+            const totalPnl = strategies.reduce((s,x) => s + x.pnl, 0);
+            const winRate = ((totalWins / (totalWins + totalLosses)) * 100).toFixed(1);
             
-            const open = trades.filter(t => t.status === 'open').length;
-            const won = trades.filter(t => t.status === 'won').length;
-            const lost = trades.filter(t => t.status === 'lost').length;
-            const total = trades.length;
-            const pnl = trades.reduce((sum, t) => sum + (t.profit_loss || 0), 0);
-            const winRate = total > 0 ? ((won / (won + lost)) * 100).toFixed(1) : 0;
-            
-            document.getElementById('overview-stats').innerHTML = `
+            document.getElementById('stats').innerHTML = `
                 <div class="stat-card">
-                    <div class="stat-value">${total}</div>
+                    <div class="stat-value">${totalTrades}</div>
                     <div class="stat-label">Total Trades</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">${open}</div>
-                    <div class="stat-label">Open Positions</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-value">${winRate}%</div>
                     <div class="stat-label">Win Rate</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value ${pnl >= 0 ? 'positive' : 'negative'}">$${pnl.toFixed(2)}</div>
+                    <div class="stat-value">${totalWins}</div>
+                    <div class="stat-label">Wins</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${totalLosses}</div>
+                    <div class="stat-label">Losses</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value ${totalPnl >= 0 ? 'positive' : 'negative'}">$${totalPnl.toFixed(2)}</div>
                     <div class="stat-label">Total P/L</div>
                 </div>
             `;
-        }
-        
-        async function loadPerformance() {
-            const res = await fetch('https://poly-tester-api.onrender.com/api/performance');
-            const perf = await res.json();
             
-            // Group by strategy
-            const strategies = {};
-            perf.forEach(p => {
-                if (!strategies[p.strategy_id]) {
-                    strategies[p.strategy_id] = {
-                        total_trades: 0,
-                        wins: 0,
-                        losses: 0,
-                        total_pnl: 0
-                    };
-                }
-                strategies[p.strategy_id].total_trades += p.total_trades;
-                strategies[p.strategy_id].wins += p.wins;
-                strategies[p.strategy_id].losses += p.losses;
-                strategies[p.strategy_id].total_pnl += parseFloat(p.total_pnl || 0);
-            });
+            document.getElementById('strategies').innerHTML = strategies.map(s => {
+                const wr = ((s.wins / s.trades) * 100).toFixed(1);
+                return `
+                    <div class="strategy-row">
+                        <div class="strategy-name">${s.name}</div>
+                        <div>${s.trades}</div>
+                        <div>${wr}%</div>
+                        <div>${s.wins}W/${s.losses}L</div>
+                        <div class="${s.pnl >= 0 ? 'positive' : 'negative'}">$${s.pnl.toFixed(2)}</div>
+                    </div>
+                `;
+            }).join('');
             
-            const strategyNames = ['Arbitrage', 'Market Maker', 'Contrarian', 'Momentum', 'Value', 'Information'];
-            
-            document.getElementById('strategy-performance').innerHTML = 
-                Object.entries(strategies).map(([id, s]) => {
-                    const winRate = s.total_trades > 0 ? ((s.wins / s.total_trades) * 100).toFixed(1) : 0;
-                    const name = strategyNames[id - 1] || `Strategy ${id}`;
-                    
-                    return `
-                        <div class="strategy-row">
-                            <div class="strategy-name">${name}</div>
-                            <div>${s.total_trades} trades</div>
-                            <div>${winRate}% win</div>
-                            <div class="${s.total_pnl >= 0 ? 'positive' : 'negative'}">$${s.total_pnl.toFixed(2)}</div>
-                            <div>${s.wins}W / ${s.losses}L</div>
-                        </div>
-                    `;
-                }).join('') || '<p style="color:#666;text-align:center;padding:20px;">No data yet</p>';
-        }
-        
-        async function loadTrades() {
-            const res = await fetch('https://poly-tester-api.onrender.com/api/trades');
-            const trades = await res.json();
-            
-            const strategyNames = ['Arbitrage', 'Market Maker', 'Contrarian', 'Momentum', 'Value', 'Information'];
-            
-            document.getElementById('trades-body').innerHTML = trades.slice(0, 50).map(t => `
+            document.getElementById('trades').innerHTML = trades.map(t => `
                 <tr>
-                    <td>${strategyNames[t.strategy_id - 1] || t.strategy_id}</td>
-                    <td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;">${t.market_id || 'Unknown'}</td>
-                    <td>${t.position.toUpperCase()}</td>
-                    <td>${(t.entry_price * 100).toFixed(0)}%</td>
-                    <td>${t.exit_price ? (t.exit_price * 100).toFixed(0) + '%' : '-'}</td>
-                    <td class="${t.profit_loss >= 0 ? 'positive' : 'negative'}">
-                        ${t.profit_loss ? '$' + t.profit_loss.toFixed(2) : '-'}
-                    </td>
+                    <td>${t.strategy}</td>
+                    <td>${t.market}</td>
+                    <td>${t.pos}</td>
+                    <td>${t.entry}%</td>
+                    <td class="${t.pnl >= 0 ? 'positive' : 'negative'}">$${t.pnl}</td>
                     <td><span class="badge badge-${t.status}">${t.status.toUpperCase()}</span></td>
                 </tr>
-            `).join('') || '<tr><td colspan="7" style="text-align:center;color:#666;">No trades yet</td></tr>';
+            `).join('');
+            
+            document.getElementById('last-update').textContent = new Date().toLocaleString();
         }
         
-        async function runTest() {
-            const btn = event.target;
-            btn.disabled = true;
-            btn.innerHTML = '<span class="loader"></span> Running...';
-            
-            await fetch('https://poly-tester-api.onrender.com/api/run-test', { method: 'POST' });
-            
-            alert('Test started! Check back in 30 seconds.');
-            
-            setTimeout(() => {
-                btn.disabled = false;
-                btn.textContent = '▶ Run Tests';
-                loadAll();
-            }, 30000);
-        }
-        
-        // Load on start
-        loadAll();
-        
-        // Auto-refresh every 30 seconds
-        setInterval(loadAll, 30000);
+        render();
+        setInterval(render, 30000);
     </script>
 </body>
 </html>
