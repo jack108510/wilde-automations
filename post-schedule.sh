@@ -65,19 +65,33 @@ else
   echo "[$(date)] WARNING: No approvals file found. Posting anyway." >> /Users/jackserver/.openclaw/workspace/logs/facebook.log
 fi
 
-# Message templates for each post type
+# Message templates for each post type - reads from content-calendar.json
 get_message() {
-  local hour=$1
-  case $hour in
-    08) echo "Morning tip for Alberta business owners 💡" ;;
-    12) echo "Lunch break offer 🍽️" ;;
-    16) echo "Afternoon check-in 👋" ;;
-    19) echo "Evening story time 🌙" ;;
-    *) echo "Update from Wildrose 🌹" ;;
-  esac
+  local file=$1
+  local calendar="/Users/jackserver/.openclaw/workspace/wilde-automations/content-calendar.json"
+  
+  if [ -f "$calendar" ]; then
+    python3 -c "
+import json
+try:
+    with open('$calendar') as f:
+        data = json.load(f)
+    # Find the post with matching file
+    for key, post in data.get('posts', {}).items():
+        if post.get('graphic') == '$file':
+            print(post.get('caption', 'Update from Wildrose'))
+            break
+    else:
+        print('Update from Wildrose 🌹')
+except:
+    print('Update from Wildrose 🌹')
+"
+  else
+    echo "Update from Wildrose 🌹"
+  fi
 }
 
-MESSAGE=$(get_message $HOUR)
+MESSAGE=$(get_message $GRAPHIC)
 
 if [ ! -f "$IMAGE_PATH" ]; then
   echo "ERROR: Graphic not found: $IMAGE_PATH"
