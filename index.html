@@ -223,8 +223,6 @@
                 <div class="contact-info">
                     <h3>Contact Us</h3>
                     <p><i class="fas fa-envelope"></i> jack@wildroseautomations.ca</p>
-                    <p><i class="fas fa-phone"></i> (403) 555-0199</p>
-                    <p><i class="fas fa-map-marker-alt"></i> Alberta, Canada</p>
                     <p style="margin-top: 24px; font-size: 0.9rem; opacity: 0.8;">Proudly serving Alberta small businesses</p>
                 </div>
                 <div class="contact-form">
@@ -267,23 +265,37 @@
     <script>
         document.getElementById('contactForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            var data = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                service: document.getElementById('service').value,
-                message: document.getElementById('message').value,
-                timestamp: new Date().toISOString()
-            };
+            var name = document.getElementById('name').value;
+            var email = document.getElementById('email').value;
+            var service = document.getElementById('service').value;
+            var message = document.getElementById('message').value;
+            
+            // Send email via AgentMail API (backend)
+            var emailBody = 'Name: ' + name + '\nEmail: ' + email + '\nService: ' + service + '\n\nMessage:\n' + message;
+            
             try {
-                await fetch('https://n8n.wildeautomations.com/webhook/2cb70635-d9e0-4b0e-9cf9-03d2cb007288', {
+                var response = await fetch('https://api.agentmail.to/v0/inboxes/jack@wildroseautomations.ca/messages/send', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
+                    headers: {
+                        'Authorization': 'Bearer am_us_eb590201635e5a67541a0e4c6eb32c5d6b144eb5cf48a5ca7ce9bece7940c11f',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        to: ['wildejack1010@gmail.com'],
+                        subject: 'New inquiry from Wildrose Website - ' + name,
+                        text: emailBody,
+                        reply_to: email
+                    })
                 });
-                alert('Message sent! We will be in touch soon.');
-                this.reset();
+                
+                if (response.ok) {
+                    alert('Message sent! We will be in touch soon.');
+                    this.reset();
+                } else {
+                    throw new Error('Failed to send');
+                }
             } catch(err) {
-                alert('Error sending message. Please email us directly.');
+                alert('Error sending message. Please email us directly at jack@wildroseautomations.ca');
             }
         });
     </script>
