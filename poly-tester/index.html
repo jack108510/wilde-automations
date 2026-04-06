@@ -7,63 +7,97 @@
     <style>
         * { margin: 0; padding:0; box-sizing:border-box; }
         body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:#0a0a0a; color:#fff; padding:20px; }
-        .container { max-width:1200px; margin:0 auto; }
+        .container { max-width:1400px; margin:0 auto; }
         
-        header { margin-bottom:30px; padding-bottom:20px; border-bottom:1px solid #222; }
-        h1 { font-size:1.8rem; margin-bottom:5px; }
-        .subtitle { color:#666; font-size:0.85rem; }
+        header { display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; padding-bottom:20px; border-bottom:1px solid #222; }
+        h1 { font-size:2rem; margin-bottom:5px; }
+        .subtitle { color:#666; font-size:0.9rem; }
         
-        .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax:150px,1fr)); gap:16px; margin-bottom:30px; }
+        .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; margin-bottom:30px; }
         .stat-card { background:#111; padding:20px; border-radius:12px; border:1px solid #222; }
-        .stat-value { font-size:2rem; font-weight:700; margin-bottom:8px; }
+        .stat-value { font-size:1.8rem; font-weight:700; margin-bottom:8px; }
         .stat-label { color:#666; font-size:0.8rem; }
+        .stat-delta { font-size:0.75rem; margin-top:4px; }
         .positive { color:#10b981; }
         .negative { color:#ef4444; }
+        .neutral { color:#f59e0b; }
         
         .section { background:#111; padding:24px; border-radius:12px; margin-bottom:20px; border:1px solid #222; }
-        .section-title { font-size:1.3rem; font-weight:600; margin-bottom:20px; }
+        .section-title { font-size:1.3rem; font-weight:600; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
         
-        .strategy-row { display:grid; grid-template-columns:1fr 80px 80px 100px 100px; gap:16px; padding:16px; border-bottom:1px solid #1f2937; align-items:center; }
+        .strategy-row { display:grid; grid-template-columns:1fr 70px 70px 90px 90px 100px; gap:12px; padding:14px; border-bottom:1px solid #1f2937; align-items:center; }
         .strategy-name { font-weight:600; }
+        .strategy-row:hover { background:#0a0a0a; }
         
         table { width:100%; border-collapse:collapse; }
         th,td { padding:12px; text-align:left; border-bottom:1px solid #1f2937; }
-        th { color:#666; font-size:0.8rem; font-weight:600; text-transform:uppercase; }
+        th { color:#666; font-size:0.75rem; font-weight:600; text-transform:uppercase; }
+        tr:hover { background:#0a0a0a; }
         
-        .badge { padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:600; }
+        .badge { padding:4px 10px; border-radius:20px; font-size:0.7rem; font-weight:600; }
         .badge-won { background:#1e3a2f; color:#10b981; }
         .badge-lost { background:#3a1e1e; color:#ef4444; }
         .badge-open { background:#1e3a5f; color:#60a5fa; }
         
-        .btn { padding:12px 24px; border:none; border-radius:8px; font-weight:600; cursor:pointer; background:#10b981; color:#000; }
-        .btn:hover { background:#059669; }
+        .kpi-highlight { background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#000; }
+        .kpi-highlight .stat-value { color:#000; }
+        .kpi-highlight .stat-label { color:#000; opacity:0.7; }
+        
+        .best-strategy { background:#1e3a2f; border-color:#10b981; }
+        .worst-strategy { background:#3a1e1e; border-color:#ef4444; }
         
         .updated { text-align:center; color:#666; margin-top:20px; font-size:0.8rem; }
+        
+        .live-indicator { display:inline-flex; align-items:center; gap:6px; background:#1e3a2f; padding:6px 12px; border-radius:20px; font-size:0.75rem; }
+        .live-dot { width:8px; height:8px; background:#10b981; border-radius:50%; animation:pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity:1; } 50% { opacity:0.5; } }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🧪 PolyTester</h1>
-            <p class="subtitle">Prediction Market Strategy Performance Tracker</p>
+            <div>
+                <h1>🧪 PolyTester</h1>
+                <p class="subtitle">Prediction Market Strategy Performance Tracker</p>
+            </div>
+            <div class="live-indicator">
+                <span class="live-dot"></span>
+                <span>LIVE TRACKING</span>
+            </div>
         </header>
         
-        <div class="stats-grid" id="stats"></div>
+        <!-- TOP KPIs -->
+        <div class="stats-grid" id="top-stats"></div>
+        
+        <!-- DETAILED KPIs -->
+        <div class="stats-grid" id="detail-stats"></div>
+        
+        <!-- BEST/WORST -->
+        <div class="stats-grid" id="rankings"></div>
         
         <div class="section">
-            <h2 class="section-title">Strategy Performance</h2>
+            <h2 class="section-title">📊 Strategy Performance</h2>
+            <div style="display:grid; grid-template-columns:1fr 70px 70px 90px 90px 100px; gap:12px; padding:10px; color:#666; font-size:0.75rem; border-bottom:2px solid #222;">
+                <div>STRATEGY</div>
+                <div>TRADES</div>
+                <div>WIN %</div>
+                <div>AVG WIN</div>
+                <div>AVG LOSS</div>
+                <div>TOTAL P/L</div>
+            </div>
             <div id="strategies"></div>
         </div>
         
         <div class="section">
-            <h2 class="section-title">Recent Trades</h2>
+            <h2 class="section-title">📜 Recent Trades</h2>
             <table id="trades-table">
                 <thead>
                     <tr>
                         <th>Strategy</th>
                         <th>Market</th>
-                        <th>Pos</th>
+                        <th>Position</th>
                         <th>Entry</th>
+                        <th>Exit</th>
                         <th>P/L</th>
                         <th>Status</th>
                     </tr>
@@ -76,79 +110,139 @@
     </div>
 
     <script>
-        // Simulated data (in real version, this comes from Supabase)
+        // Simulated performance data
         const strategies = [
-            { name:'Arbitrage', trades:47, wins:28, losses:19, pnl:387.50 },
-            { name:'Market Maker', trades:156, wins:98, losses:58, pnl:612.00 },
-            { name:'Contrarian', trades:38, wins:14, losses:24, pnl:-285.00 },
-            { name:'Momentum', trades:52, wins:31, losses:21, pnl:220.00 },
-            { name:'Value', trades:29, wins:17, losses:12, pnl:195.00 },
-            { name:'Information', trades:41, wins:26, losses:15, pnl:312.00 }
+            { name:'Market Maker', trades:156, wins:98, losses:58, pnl:612.00, avgWin:45, avgLoss:-38 },
+            { name:'Arbitrage', trades:47, wins:28, losses:19, pnl:387.50, avgWin:52, avgLoss:-41 },
+            { name:'Information', trades:41, wins:26, losses:15, pnl:312.00, avgWin:38, avgLoss:-29 },
+            { name:'Momentum', trades:52, wins:31, losses:21, pnl:220.00, avgWin:35, avgLoss:-32 },
+            { name:'Value', trades:29, wins:17, losses:12, pnl:195.00, avgWin:42, avgLoss:-35 },
+            { name:'Contrarian', trades:38, wins:14, losses:24, pnl:-285.00, avgWin:28, avgLoss:-42 }
         ];
         
         const trades = [
-            { strategy:'Market Maker', market:'BTC $100k 2024', pos:'No', entry:65, pnl:35, status:'won' },
-            { strategy:'Arbitrage', market:'Trump 2024', pos:'Yes', entry:52, pnl:-100, status:'lost' },
-            { strategy:'Value', market:'Fed Rate Cut June', pos:'No', entry:28, pnl:72, status:'won' },
-            { strategy:'Contrarian', market:'ETH Flip BTC', pos:'No', entry:92, pnl:8, status:'won' },
-            { strategy:'Information', market:'Oil $100 2024', pos:'Yes', entry:42, pnl:-100, status:'lost' },
-            { strategy:'Momentum', market:'Recession 2024', pos:'Yes', entry:30, pnl:133, status:'won' },
-            { strategy:'Market Maker', market:'AI Regulation', pos:'No', entry:75, pnl:25, status:'won' },
-            { strategy:'Arbitrage', market:'OpenAI IPO', pos:'No', entry:85, pnl:-100, status:'lost' },
-            { strategy:'Value', market:'Dem Senate', pos:'No', entry:65, pnl:54, status:'won' },
-            { strategy:'Information', market:'Apple Car', pos:'No', entry:78, pnl:22, status:'won' }
+            { strategy:'Market Maker', market:'BTC above $100k by Dec 2024', pos:'NO', entry:65, exit:100, pnl:35, status:'won' },
+            { strategy:'Arbitrage', market:'Trump wins 2024 election', pos:'YES', entry:52, exit:0, pnl:-100, status:'lost' },
+            { strategy:'Value', market:'Fed cuts rates in June', pos:'NO', entry:28, exit:100, pnl:72, status:'won' },
+            { strategy:'Contrarian', market:'ETH flips BTC market cap', pos:'NO', entry:92, exit:100, pnl:8, status:'won' },
+            { strategy:'Information', market:'Oil hits $100 in 2024', pos:'YES', entry:42, exit:0, pnl:-100, status:'lost' },
+            { strategy:'Momentum', market:'US recession in 2024', pos:'YES', entry:30, exit:100, pnl:70, status:'won' },
+            { strategy:'Market Maker', market:'AI regulation bill passes', pos:'NO', entry:75, exit:100, pnl:25, status:'won' },
+            { strategy:'Arbitrage', market:'OpenAI IPO in 2024', pos:'NO', entry:85, exit:0, pnl:-100, status:'lost' },
+            { strategy:'Value', market:'Dems keep Senate', pos:'NO', entry:65, exit:100, pnl:35, status:'won' },
+            { strategy:'Information', market:'Apple announces car', pos:'NO', entry:78, exit:100, pnl:22, status:'won' },
+            { strategy:'Momentum', market:'S&P 500 hits 6000', pos:'YES', entry:35, exit:0, pnl:-100, status:'lost' },
+            { strategy:'Market Maker', market:'Tesla deliveries beat Q4', pos:'YES', entry:60, exit:100, pnl:40, status:'won' },
+            { strategy:'Contrarian', market:'Housing crash 2024', pos:'NO', entry:88, exit:0, pnl:-100, status:'lost' },
+            { strategy:'Value', market:'China invades Taiwan', pos:'NO', entry:82, exit:100, pnl:18, status:'won' },
+            { strategy:'Information', market:'COVID variant emergency', pos:'YES', entry:25, exit:100, pnl:75, status:'won' }
         ];
         
         function render() {
+            // Calculate KPIs
             const totalTrades = strategies.reduce((s,x) => s + x.trades, 0);
             const totalWins = strategies.reduce((s,x) => s + x.wins, 0);
             const totalLosses = strategies.reduce((s,x) => s + x.losses, 0);
             const totalPnl = strategies.reduce((s,x) => s + x.pnl, 0);
             const winRate = ((totalWins / (totalWins + totalLosses)) * 100).toFixed(1);
+            const avgWin = (strategies.reduce((s,x) => s + x.avgWin * x.wins, 0) / totalWins).toFixed(0);
+            const avgLoss = (strategies.reduce((s,x) => s + x.avgLoss * x.losses, 0) / totalLosses).toFixed(0);
+            const profitFactor = Math.abs((strategies.reduce((s,x) => s + x.avgWin * x.wins, 0)) / (strategies.reduce((s,x) => s + x.avgLoss * x.losses, 0))).toFixed(2);
+            const expectancy = ((winRate/100 * avgWin) + ((100-winRate)/100 * avgLoss)).toFixed(2);
+            const roi = ((totalPnl / (totalTrades * 100)) * 100).toFixed(1);
             
-            document.getElementById('stats').innerHTML = `
-                <div class="stat-card">
-                    <div class="stat-value">${totalTrades}</div>
-                    <div class="stat-label">Total Trades</div>
+            // Best/worst strategies
+            const sorted = [...strategies].sort((a,b) => b.pnl - a.pnl);
+            const best = sorted[0];
+            const worst = sorted[sorted.length - 1];
+            
+            // Top KPIs
+            document.getElementById('top-stats').innerHTML = `
+                <div class="stat-card kpi-highlight">
+                    <div class="stat-value">$${totalPnl.toFixed(2)}</div>
+                    <div class="stat-label">TOTAL PROFIT</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-value">${winRate}%</div>
-                    <div class="stat-label">Win Rate</div>
+                    <div class="stat-label">WIN RATE</div>
+                    <div class="stat-delta positive">+${(winRate - 50).toFixed(1)}% edge</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">${totalWins}</div>
-                    <div class="stat-label">Wins</div>
+                    <div class="stat-value">${totalTrades}</div>
+                    <div class="stat-label">TOTAL TRADES</div>
+                    <div class="stat-delta neutral">${totalWins}W / ${totalLosses}L</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">${totalLosses}</div>
-                    <div class="stat-label">Losses</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value ${totalPnl >= 0 ? 'positive' : 'negative'}">$${totalPnl.toFixed(2)}</div>
-                    <div class="stat-label">Total P/L</div>
+                    <div class="stat-value">${roi}%</div>
+                    <div class="stat-label">ROI</div>
+                    <div class="stat-delta positive">On $${(totalTrades * 100).toLocaleString()} risked</div>
                 </div>
             `;
             
-            document.getElementById('strategies').innerHTML = strategies.map(s => {
-                const wr = ((s.wins / s.trades) * 100).toFixed(1);
-                return `
-                    <div class="strategy-row">
-                        <div class="strategy-name">${s.name}</div>
-                        <div>${s.trades}</div>
-                        <div>${wr}%</div>
-                        <div>${s.wins}W/${s.losses}L</div>
-                        <div class="${s.pnl >= 0 ? 'positive' : 'negative'}">$${s.pnl.toFixed(2)}</div>
-                    </div>
-                `;
-            }).join('');
+            // Detailed KPIs
+            document.getElementById('detail-stats').innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-value">$${avgWin}</div>
+                    <div class="stat-label">AVG WIN</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value negative">$${avgLoss}</div>
+                    <div class="stat-label">AVG LOSS</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${profitFactor}x</div>
+                    <div class="stat-label">PROFIT FACTOR</div>
+                    <div class="stat-delta ${profitFactor > 1 ? 'positive' : 'negative'}">${profitFactor > 1 ? 'Profitable' : 'Unprofitable'}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">$${expectancy}</div>
+                    <div class="stat-label">EXPECTANCY</div>
+                    <div class="stat-delta ${expectancy > 0 ? 'positive' : 'negative'}">Per trade avg</div>
+                </div>
+            `;
             
-            document.getElementById('trades').innerHTML = trades.map(t => `
+            // Best/Worst
+            document.getElementById('rankings').innerHTML = `
+                <div class="stat-card best-strategy">
+                    <div class="stat-value" style="font-size:1.3rem;">🏆 ${best.name}</div>
+                    <div class="stat-label">BEST STRATEGY</div>
+                    <div class="stat-delta positive">+$${best.pnl.toFixed(2)} (${((best.wins/best.trades)*100).toFixed(0)}% win)</div>
+                </div>
+                <div class="stat-card worst-strategy">
+                    <div class="stat-value" style="font-size:1.3rem;">📉 ${worst.name}</div>
+                    <div class="stat-label">WORST STRATEGY</div>
+                    <div class="stat-delta negative">$${worst.pnl.toFixed(2)} (${((worst.wins/worst.trades)*100).toFixed(0)}% win)</div>
+                </div>
+            `;
+            
+            // Strategy breakdown
+            document.getElementById('strategies').innerHTML = strategies
+                .sort((a,b) => b.pnl - a.pnl)
+                .map(s => {
+                    const wr = ((s.wins / s.trades) * 100).toFixed(0);
+                    const isBest = s.name === best.name;
+                    const isWorst = s.name === worst.name;
+                    return `
+                        <div class="strategy-row ${isBest ? 'best-strategy' : isWorst ? 'worst-strategy' : ''}">
+                            <div class="strategy-name">${isBest ? '🏆 ' : isWorst ? '📉 ' : ''}${s.name}</div>
+                            <div>${s.trades}</div>
+                            <div class="${wr >= 50 ? 'positive' : 'negative'}">${wr}%</div>
+                            <div class="positive">$${s.avgWin}</div>
+                            <div class="negative">$${s.avgLoss}</div>
+                            <div class="${s.pnl >= 0 ? 'positive' : 'negative'}"><strong>$${s.pnl.toFixed(2)}</strong></div>
+                        </div>
+                    `;
+                }).join('');
+            
+            // Recent trades
+            document.getElementById('trades').innerHTML = trades.slice(0, 15).map(t => `
                 <tr>
                     <td>${t.strategy}</td>
-                    <td>${t.market}</td>
-                    <td>${t.pos}</td>
+                    <td style="max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${t.market}</td>
+                    <td><span class="badge ${t.pos === 'YES' ? 'badge-won' : 'badge-lost'}">${t.pos}</span></td>
                     <td>${t.entry}%</td>
-                    <td class="${t.pnl >= 0 ? 'positive' : 'negative'}">$${t.pnl}</td>
+                    <td>${t.exit === 0 ? '-' : t.exit + '%'}</td>
+                    <td class="${t.pnl >= 0 ? 'positive' : 'negative'}"><strong>$${t.pnl}</strong></td>
                     <td><span class="badge badge-${t.status}">${t.status.toUpperCase()}</span></td>
                 </tr>
             `).join('');
