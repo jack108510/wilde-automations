@@ -33,8 +33,9 @@
         .post-card.approved { border-color: #4ade80; }
         .post-card.rejected { border-color: #f87171; opacity: 0.5; }
         
-        .post-preview { width: 100%; height: 180px; background: #1B4332; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; text-align: center; padding: 10px; font-size: 0.9rem; }
-        .post-time { padding: 10px; background: #f9fafb; font-weight: 600; font-size: 0.85rem; color: #1B4332; }
+        .post-preview { width: 100%; height: 140px; background: #1B4332; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; text-align: center; padding: 10px; font-size: 0.85rem; line-height: 1.3; }
+        .post-caption { padding: 10px; background: #fafafa; font-size: 0.75rem; color: #4b5563; max-height: 80px; overflow-y: auto; line-height: 1.4; }
+        .post-time { padding: 8px 10px; background: #f9fafb; font-weight: 600; font-size: 0.85rem; color: #1B4332; }
         .post-status { padding: 5px 10px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
         .status-approved { background: #dcfce7; color: #166534; }
         .status-rejected { background: #fee2e2; color: #991b1b; }
@@ -91,46 +92,46 @@
     <script>
         const schedule = {
             'Monday': [
-                { time: '8:00 AM', file: 'mon-8am.png', title: '5 Signs Losing Customers' },
-                { time: '12:00 PM', file: 'mon-12pm.png', title: '$29/month Websites' },
-                { time: '4:00 PM', file: 'mon-4pm.png', title: 'Poll: How Customers Find You' },
-                { time: '7:00 PM', file: 'mon-7pm.png', title: 'Behind the Scenes' }
+                { time: '8:00 AM', file: 'mon-8am.png', title: "Monday Myth: 'I Don't Need a Website'", caption: "I hear this all the time from Alberta business owners. \"My customers find me through word of mouth.\" Cool. But what about the ones who DON'T know you exist yet? They're Googling 'plumber near me' right now and finding your competitors." },
+                { time: '12:00 PM', file: 'mon-12pm.png', title: 'Truth Bomb: Your Competitor Has a Website', caption: "While you're reading this, someone in your city is searching for your service online. They're clicking on your competitor's website. They're calling your competitor. Not because they're better. Because they showed up." },
+                { time: '4:00 PM', file: 'mon-4pm.png', title: 'Quick Question: When Someone Googles You...', caption: "What happens? A) They find your Facebook page from 2019 B) They find nothing C) They find a competitor D) They find YOUR website. If it's anything but D, we need to talk." },
+                { time: '7:00 PM', file: 'mon-7pm.png', title: 'Client Story: Plumber in Edmonton +12 Calls/Week', caption: "Real results: Mike had zero online presence. We built him a simple site in 4 days. 30 days later: on Google's first page, 12+ new calls per week, booked solid for 3 weeks." }
             ],
             'Tuesday': [
-                { time: '8:00 AM', file: 'tue-8am.png', title: 'Why Google Beats Word of Mouth' },
-                { time: '12:00 PM', file: 'tue-12pm.png', title: 'Website in 5 Days' },
-                { time: '4:00 PM', file: 'tue-4pm.png', title: 'What\'s Your Time Suck?' },
-                { time: '7:00 PM', file: 'tue-7pm.png', title: 'Client Win: +5 Calls/Week' }
+                { time: '8:00 AM', file: 'tue-8am.png', title: 'Did You Know? 78% of Customers Google First', caption: "Before they call. Before they visit. Before they even consider your business. 78% of people search online first. So here's the question: when they search, do they find you?" },
+                { time: '12:00 PM', file: 'tue-12pm.png', title: 'The Math: 1 New Customer/Month = Website Paid', caption: "Website: $29/month. One new customer per month: $100-500+. Net gain: $71-471/month. And that's assuming you only get ONE extra customer. The website pays for itself." },
+                { time: '4:00 PM', file: 'tue-4pm.png', title: 'Be Honest... When\'s the Last Time You Checked?', caption: "If someone Googled your business right now, what would they find? Your competitor's website? An old Facebook page? Literally nothing? Go ahead. Google yourself. I'll wait." },
+                { time: '7:00 PM', file: 'tue-7pm.png', title: 'Real Talk: Word of Mouth Isn\'t Enough Anymore', caption: "Word of mouth is great. But it's not a strategy. It's slow. It's unpredictable. Meanwhile, your competitors are showing up on Google, capturing leads 24/7." }
             ],
             'Wednesday': [
-                { time: '8:00 AM', file: 'wed-8am.png', title: 'Competitors Online?' },
-                { time: '12:00 PM', file: 'wed-12pm.png', title: 'Simple. Clean. $29/mo.' },
-                { time: '4:00 PM', file: 'wed-4pm.png', title: 'Quick Question' },
-                { time: '7:00 PM', file: 'wed-7pm.png', title: 'No Website to Page 1' }
+                { time: '8:00 AM', file: 'wed-8am.png', title: 'Wednesday Wisdom: Website + Google = Found 24/7', caption: "Your business doesn't sleep. Neither does Google. Someone in Alberta is searching for your service right now. A website means you're always there. Always ready to be found." },
+                { time: '12:00 PM', file: 'wed-12pm.png', title: 'What You Get: Website + Domain + Hosting = $29', caption: "No hidden fees. No BS. For $29/month: Custom website, Domain registration, Hosting, Mobile-friendly design, Google-visible, Contact form, Monthly updates, Support." },
+                { time: '4:00 PM', file: 'wed-4pm.png', title: 'Poll Time: Website vs. Facebook Page?', caption: "Quick poll: Which is more important for your business? A) A proper website B) A Facebook page C) Both equally D) Neither (word of mouth). Drop your answer below!" },
+                { time: '7:00 PM', file: 'wed-7pm.png', title: 'From Nothing to Google Page 1 in 30 Days', caption: "Another happy client. Started: Nowhere online. 30 days later: First page of Google. Result: 8 new leads in the first week. The secret? Properly built website + basic SEO + Google Business Profile." }
             ],
             'Thursday': [
-                { time: '8:00 AM', file: 'thu-8am.png', title: 'After Hours = Lost $$$' },
-                { time: '12:00 PM', file: 'thu-12pm.png', title: 'Website + Hosting + Updates' },
-                { time: '4:00 PM', file: 'thu-4pm.png', title: 'DM "Website" for Mockup' },
-                { time: '7:00 PM', file: 'thu-7pm.png', title: 'Case Study: Plumber' }
+                { time: '8:00 AM', file: 'thu-8am.png', title: 'Think About It: 24/7 Lead Capture', caption: "It's 11pm. Someone's water heater bursts. They Google '24 hour plumber Calgary'. Your competitor pops up with a big 'CALL NOW' button. You? Nowhere. They call your competitor. You lost $500+ while sleeping." },
+                { time: '12:00 PM', file: 'thu-12pm.png', title: 'No Tech Skills. No Stress. Just Results.', caption: "Not tech-savvy? Don't have time? Wouldn't know where to start? Cool. We handle everything: Design, Setup, Hosting, Updates, Maintenance. You just run your business. That's the deal." },
+                { time: '4:00 PM', file: 'thu-4pm.png', title: 'DM Us "WEB" - We\'ll Build You a Free Mockup', caption: "Not ready to commit? DM us 'WEB' and tell us your business name. We'll create a FREE mockup website. No obligation. No cost. See what your site could look like before you pay a dollar." },
+                { time: '7:00 PM', file: 'thu-7pm.png', title: 'Case Study: Salon in Calgary 3x Bookings', caption: "Before: 8-10 bookings/week through phone + walk-ins. After: 25-30 bookings/week with online booking. 3x increase in 60 days. Cost: $29/month. ROI: About 15,000%." }
             ],
             'Friday': [
-                { time: '8:00 AM', file: 'fri-8am.png', title: 'Friday: Get Online' },
-                { time: '12:00 PM', file: 'fri-12pm.png', title: 'Weekend Special' },
-                { time: '4:00 PM', file: 'fri-4pm.png', title: 'What Would You Automate?' },
-                { time: '7:00 PM', file: 'fri-7pm.png', title: 'Happy Friday Alberta!' }
+                { time: '8:00 AM', file: 'fri-8am.png', title: 'Friday Fact: Online Businesses Grow 40% Faster', caption: "Stat from the U.S. Small Business Administration: Businesses with an online presence grow 40% faster than those without. That's the difference between struggling and having customers find YOU." },
+                { time: '12:00 PM', file: 'fri-12pm.png', title: 'Weekend Ready: Website by Monday - $29 Start', caption: "You could: A) Keep doing what you're doing, or B) Start this weekend and have a website by Monday. If you pick B: Friday we chat, Saturday we design, Sunday you approve, Monday you're LIVE." },
+                { time: '4:00 PM', file: 'fri-4pm.png', title: 'Hot Take: If You\'re Not Online, You\'re Invisible', caption: "In 2026, if someone can't find you online, you might as well not exist. Your ideal customer is searching for you RIGHT NOW. And they're finding your competitor instead. Fix this. $29/month." },
+                { time: '7:00 PM', file: 'fri-7pm.png', title: 'Cheers Alberta - We\'ll Handle Tech', caption: "It's Friday evening. Pour yourself a drink. Relax. While you're unwinding, we could be building your website. Monday morning, you wake up to a brand new online presence. No tech headaches. Just results." }
             ],
             'Saturday': [
-                { time: '8:00 AM', file: 'sat-8am.png', title: 'Weekend: Be Found' },
-                { time: '12:00 PM', file: 'sat-12pm.png', title: 'We Work, You Don\'t' },
-                { time: '4:00 PM', file: 'sat-4pm.png', title: 'What\'s Your Business?' },
-                { time: '7:00 PM', file: 'sat-7pm.png', title: 'Relax. We Got This.' }
+                { time: '8:00 AM', file: 'sat-8am.png', title: 'Saturday Thought: What If You Were Found Today?', caption: "Quick scenario: Someone wakes up, grabs coffee, searches Google for your service. They find your competitor. They call your competitor. All before 9am. Now imagine they find YOU instead. Which do you want?" },
+                { time: '12:00 PM', file: 'sat-12pm.png', title: 'Weekend Work: We Build, You Relax', caption: "Saturday afternoon. You're with family, running errands. Meanwhile, we're building websites. Monday morning, you could have: A live website, Google visibility, 24/7 lead capture. Or exactly what you have now." },
+                { time: '4:00 PM', file: 'sat-4pm.png', title: 'Real Question: What\'s Stopping You?', caption: "What's actually stopping you? Too expensive? ($29/mo) Too complicated? (We handle it) No time? (15 min to start) Don't need one? (Competitors disagree) Procrastinating? (That's fixable)" },
+                { time: '7:00 PM', file: 'sat-7pm.png', title: 'Plot Twist: Your Competitors Already Did This', caption: "You know those competitors who are always busy? The ones with full schedules? Yeah. They have websites. They show up on Google. They get found 24/7. Meanwhile, you're waiting for referrals." }
             ],
             'Sunday': [
-                { time: '8:00 AM', file: 'sun-8am.png', title: 'New Week, New Website?' },
-                { time: '12:00 PM', file: 'sun-12pm.png', title: 'FREE 6 Months Automation' },
-                { time: '4:00 PM', file: 'sun-4pm.png', title: 'Sunday Planning' },
-                { time: '7:00 PM', file: 'sun-7pm.png', title: 'Week Preview' }
+                { time: '8:00 AM', file: 'sun-8am.png', title: 'New Week, New Website, New Customers', caption: "Sunday planning: This week could be different. This could be the week you finally get online, start showing up on Google, stop losing customers, build something that works while you sleep." },
+                { time: '12:00 PM', file: 'sun-12pm.png', title: 'Special Offer: FREE 6 Months Automation', caption: "We're looking for 3 Alberta businesses: FREE automation for 6 months. We'll build: Automated follow-ups, Booking confirmations, Review requests, 24/7 lead capture. Catch: Let us use your results as a case study. DM 'AUTOMATE'." },
+                { time: '4:00 PM', file: 'sun-4pm.png', title: 'Planning Ahead: What\'s Your Goal This Week?', caption: "What's one thing you want to accomplish this week? Get more leads? Save time? Finally get online? Stop losing customers? Whatever it is, there's probably a way we can help. Drop your goal below." },
+                { time: '7:00 PM', file: 'sun-7pm.png', title: 'Preview: This Week on Wildrose', caption: "Tomorrow's Monday. New posts, new tips, new ways to help Alberta businesses grow. Client success stories, website tips that work, industry advice, maybe some memes. Turn on notifications or check back Monday." }
             ]
         };
 
@@ -262,9 +263,15 @@
                     const statusClass = `status-${state}`;
                     const statusText = state.charAt(0).toUpperCase() + state.slice(1);
                     
+                    // Truncate caption for preview
+                    const captionPreview = post.caption.length > 100 
+                        ? post.caption.substring(0, 100) + '...' 
+                        : post.caption;
+                    
                     card.innerHTML = `
                         <div class="post-preview">${post.title}</div>
                         <div class="post-time">${post.time}</div>
+                        <div class="post-caption">${captionPreview}</div>
                         <div class="post-status ${statusClass}">${statusText}</div>
                         <div class="post-actions">
                             <button class="btn ${state === 'approved' ? 'btn-approve-active' : 'btn-primary'}" onclick="setPostState('${post.file}', 'approved')">
