@@ -3,598 +3,280 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wildrose Automations | Custom Business Solutions</title>
+    <title>Wildrose Automations | Websites & Business Automation for Alberta</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #EF4444;
-            --primary-dark: #DC2626;
-            --primary-light: #FCA5A5;
-            --dark: #111827;
-            --dark-gray: #1f2937;
+            --primary: #1B4332;
+            --primary-dark: #0d3222;
+            --primary-light: #4ade80;
+            --accent: #D4AF37;
+            --dark: #1a1a1a;
             --gray: #4b5563;
             --light-gray: #9ca3af;
             --white: #ffffff;
             --border: #e5e7eb;
-            --bg-light: #f9fafb;
-            --gradient: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+            --bg-light: #f8faf9;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg-light); color: var(--dark); line-height: 1.6; }
+        body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--dark); line-height: 1.6; }
         
-        header { padding: 12px 24px; border-bottom: 1px solid var(--border); position: fixed; width: 100%; background: rgba(255,255,255,0.98); backdrop-filter: blur(8px); z-index: 100; display: flex; justify-content: space-between; align-items: center; }
+        header { padding: 16px 24px; border-bottom: 1px solid var(--border); position: fixed; width: 100%; background: rgba(255,255,255,0.98); backdrop-filter: blur(8px); z-index: 100; }
         .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-        .nav-container { max-width: 1100px; width: 100%; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; }
-        .logo { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.5px; color: var(--dark); display: flex; align-items: center; gap: 10px; margin-right: auto; }
-        .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; }
-        .logo span { background: linear-gradient(135deg, #EF4444, #DC2626); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        nav { display: flex; gap: 32px; }
+        .nav-container { display: flex; align-items: center; justify-content: space-between; }
+        .logo { font-size: 1.35rem; font-weight: 700; color: var(--dark); display: flex; align-items: center; gap: 10px; }
+        .logo-icon { width: 36px; height: 36px; background: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; }
+        .logo span { color: var(--primary); }
+        nav { display: flex; gap: 32px; align-items: center; }
         nav a { color: var(--gray); text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: color 0.2s; }
-        nav a:hover { color: var(--dark); }
+        nav a:hover { color: var(--primary); }
+        .btn { padding: 12px 24px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; transition: all 0.2s; border: none; cursor: pointer; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+        .btn-outline { border: 2px solid var(--primary); color: var(--primary); background: transparent; }
+        .btn-outline:hover { background: var(--primary); color: white; }
         
-        .hero { padding: 140px 0 80px; background: linear-gradient(135deg, #7F1D1D 0%, #991B1B 50%, #7F1D1D 100%); color: white; text-align: center; position: relative; overflow: hidden; }
-        .hero::before { content: ''; position: absolute; top: -50%; right: -20%; width: 800px; height: 800px; background: radial-gradient(circle, rgba(239,68,68,0.3) 0%, transparent 70%); border-radius: 50%; }
-        .hero::after { content: ''; position: absolute; bottom: -30%; left: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(220,38,38,0.2) 0%, transparent 70%); border-radius: 50%; }
-        .hero > .container { position: relative; z-index: 1; }
-        .hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 16px; letter-spacing: -1px; line-height: 1.15; }
+        .hero { padding: 140px 0 100px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; text-align: center; }
+        .hero h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 16px; letter-spacing: -1px; }
         .hero h1 span { color: var(--primary-light); }
-        .hero p { font-size: 1.1rem; color: var(--light-gray); max-width: 520px; margin: 0 auto 32px; }
-        .hero-cta { display: flex; gap: 14px; justify-content: center; }
+        .hero p { font-size: 1.15rem; color: rgba(255,255,255,0.85); max-width: 540px; margin: 0 auto 32px; }
+        .hero-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
         
-        .btn { padding: 13px 26px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; font-size: 0.95rem; }
-        .btn-primary { background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%); color: white; }
-        .btn-primary:hover { background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(239,68,68,0.4); }
-        .btn-outline { border: 2px solid var(--gray); color: white; }
-        .btn-outline:hover { border-color: white; background: rgba(255,255,255,0.05); }
+        .trust-bar { padding: 24px 0; background: var(--bg-light); text-align: center; border-bottom: 1px solid var(--border); }
+        .trust-bar p { color: var(--gray); font-size: 0.9rem; }
+        .trust-bar strong { color: var(--primary); }
         
-        .stats { background: linear-gradient(135deg, #7F1D1D 0%, #991B1B 100%); padding: 48px 0; }
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: center; }
-        .stat-value { font-size: 2.25rem; font-weight: 700; color: var(--primary-light); }
-        .stat-label { color: var(--light-gray); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .services { padding: 80px 0; }
+        .section-title { font-size: 2rem; text-align: center; margin-bottom: 48px; font-weight: 700; }
+        .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; max-width: 900px; margin: 0 auto; }
+        .service-card { background: var(--white); border: 2px solid var(--border); border-radius: 16px; padding: 32px; transition: all 0.2s; }
+        .service-card:hover { border-color: var(--primary); box-shadow: 0 8px 24px rgba(27,67,50,0.1); }
+        .service-card h3 { font-size: 1.4rem; margin-bottom: 8px; font-weight: 700; color: var(--dark); }
+        .service-card .price { font-size: 2rem; font-weight: 800; color: var(--primary); margin-bottom: 16px; }
+        .service-card .price span { font-size: 1rem; font-weight: 400; color: var(--gray); }
+        .service-card p { color: var(--gray); margin-bottom: 16px; }
+        .service-card ul { list-style: none; margin-bottom: 24px; }
+        .service-card li { padding: 8px 0; color: var(--gray); font-size: 0.9rem; display: flex; align-items: center; gap: 10px; }
+        .service-card li i { color: var(--primary-light); font-size: 0.8rem; }
         
-        .services { padding: 80px 0; background: white; }
-        .section-title { font-size: 1.75rem; text-align: center; margin-bottom: 40px; font-weight: 700; letter-spacing: -0.5px; }
+        .how-it-works { padding: 80px 0; background: var(--bg-light); }
+        .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; max-width: 900px; margin: 0 auto; }
+        .step { text-align: center; }
+        .step-number { width: 48px; height: 48px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2rem; margin: 0 auto 16px; }
+        .step h3 { font-size: 1.1rem; margin-bottom: 8px; font-weight: 600; }
+        .step p { color: var(--gray); font-size: 0.9rem; }
         
-        .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .service-card { background: var(--bg-light); border: 1px solid var(--border); border-radius: 12px; padding: 28px; transition: all 0.25s; }
-        .service-card:hover { border-color: var(--primary); box-shadow: 0 8px 24px rgba(0,0,0,0.06); transform: translateY(-2px); }
-        .service-icon { width: 48px; height: 48px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; margin-bottom: 16px; }
-        .service-card h3 { font-size: 1.05rem; margin-bottom: 8px; font-weight: 600; }
-        .service-card p { color: var(--gray); font-size: 0.9rem; margin-bottom: 14px; line-height: 1.5; }
-        .service-link { color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; }
+        .testimonials { padding: 80px 0; }
+        .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1000px; margin: 0 auto; }
+        .testimonial { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+        .testimonial p { color: var(--dark); font-size: 0.95rem; margin-bottom: 16px; font-style: italic; }
+        .testimonial-author { font-weight: 600; font-size: 0.85rem; }
+        .testimonial-company { color: var(--gray); font-size: 0.8rem; }
         
-        .pricing { padding: 80px 0; background: var(--bg-light); }
-        .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 850px; margin: 0 auto; }
-        .price-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 28px; text-align: center; transition: all 0.25s; }
-        .price-card:hover { border-color: var(--primary-light); }
-        .price-card.featured { border-color: var(--primary); box-shadow: 0 8px 24px rgba(5,150,105,0.12); }
-        .price-card h3 { font-size: 1rem; margin-bottom: 6px; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
-        .price { font-size: 2rem; font-weight: 700; margin-bottom: 16px; color: var(--dark); }
-        .price span { font-size: 0.9rem; font-weight: 400; color: var(--gray); }
-        .price-card ul { list-style: none; text-align: left; margin-bottom: 20px; }
-        .price-card li { padding: 10px 0; color: var(--gray); font-size: 0.9rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
-        .price-card li:last-child { border-bottom: none; }
-        .price-card li::before { content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; color: var(--primary); font-size: 0.75rem; }
+        .contact { padding: 80px 0; background: var(--primary); color: white; }
+        .contact h2 { color: white; }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; max-width: 900px; margin: 0 auto; }
+        .contact-info h3 { font-size: 1.2rem; margin-bottom: 16px; }
+        .contact-info p { color: rgba(255,255,255,0.85); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+        .contact-form { background: rgba(255,255,255,0.1); padding: 32px; border-radius: 12px; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; margin-bottom: 6px; font-size: 0.85rem; color: rgba(255,255,255,0.85); }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: white; font-size: 0.95rem; }
+        .form-group input::placeholder { color: rgba(255,255,255,0.5); }
         
-        .contact { padding: 80px 0; background: var(--dark); color: white; }
-        .contact h2.section-title { color: white; }
-        .contact-form { max-width: 480px; margin: 0 auto; background: var(--dark-gray); padding: 32px; border-radius: 12px; }
-        .form-group { margin-bottom: 18px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.85rem; color: var(--light-gray); }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px 14px; border-radius: 8px; border: 1px solid var(--gray); background: var(--dark); color: white; font-size: 0.95rem; font-family: inherit; transition: border-color 0.2s; }
-        .form-group input:focus, .form-group textarea:focus { border-color: var(--primary); outline: none; }
-        
-        footer { padding: 24px 0; text-align: center; color: var(--gray); font-size: 0.85rem; border-top: 1px solid var(--border); }
+        footer { padding: 32px 0; background: var(--dark); color: rgba(255,255,255,0.7); text-align: center; font-size: 0.85rem; }
+        footer a { color: white; text-decoration: none; }
         
         @media (max-width: 768px) {
             .hero h1 { font-size: 2rem; }
-            .services-grid { grid-template-columns: 1fr; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
-            .pricing-grid { grid-template-columns: 1fr; }
+            .services-grid, .steps-grid, .testimonials-grid, .contact-grid { grid-template-columns: 1fr; }
             nav { display: none; }
         }
     </style>
 </head>
 <body>
     <header>
-        <div class="nav-container">
-            <div class="logo"><div class="logo-icon"><i class="fas fa-bolt"></i></div>Wildrose<span>Automations</span></div>
+        <div class="container nav-container">
+            <div class="logo"><div class="logo-icon">W</div>Wildrose <span>Automations</span></div>
             <nav>
                 <a href="#services">Services</a>
-                <a href="#pricing">Pricing</a>
+                <a href="#how-it-works">How It Works</a>
                 <a href="#contact">Contact</a>
+                <a href="#contact" class="btn btn-primary">Get Started</a>
             </nav>
         </div>
     </header>
     
     <section class="hero">
         <div class="container">
-            <h1>Smart Automation for<br><span>Modern Business</span></h1>
-            <p>We build custom workflows that connect your apps and eliminate repetitive tasks. Save hours every week.</p>
+            <h1>We Build Websites &<br><span>Automate Businesses</span></h1>
+            <p>Simple websites for $29/month. Business automation that saves you hours every week. Alberta-owned, serving local businesses.</p>
             <div class="hero-cta">
-                <a href="#contact" class="btn btn-primary"><i class="fas fa-rocket"></i> Get Started</a>
-                <a href="#services" class="btn btn-outline"><i class="fas fa-arrow-right"></i> Our Services</a>
+                <a href="#services" class="btn btn-primary">See Our Services</a>
+                <a href="#contact" class="btn btn-outline" style="border-color: white; color: white;">Get in Touch</a>
             </div>
         </div>
     </section>
     
-    <section class="stats">
+    <section class="trust-bar">
         <div class="container">
-            <div class="stats-grid">
-                <div class="stat">
-                    <div class="stat-value">12+</div>
-                    <div class="stat-label">Projects Delivered</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">500+</div>
-                    <div class="stat-label">Hours Saved</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">24/7</div>
-                    <div class="stat-label">Support</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">100%</div>
-                    <div class="stat-label">Satisfaction</div>
-                </div>
-            </div>
+            <p>Trusted by <strong>50+ Alberta businesses</strong> - No setup fees - No contracts - Cancel anytime</p>
         </div>
     </section>
     
     <section class="services" id="services">
         <div class="container">
-            <h2 class="section-title">What We Do</h2>
+            <h2 class="section-title">What We Offer</h2>
             <div class="services-grid">
                 <div class="service-card">
-                    <div class="service-icon"><i class="fas fa-boxes"></i></div>
-                    <h3>Inventory & Intelligence</h3>
-                    <p>Smart inventory tracking with AI-powered insights. Real-time stock monitoring, predictive ordering, and automated reordering.</p>
-                    <a href="#contact" class="service-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                    <h3>Simple Websites</h3>
+                    <div class="price">$29<span>/month</span></div>
+                    <p>Clean, professional websites for Alberta small businesses. No setup fee, no contract.</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Custom domain (yourbusiness.ca)</li>
+                        <li><i class="fas fa-check"></i> Mobile-friendly design</li>
+                        <li><i class="fas fa-check"></i> Google-ready (SEO basics)</li>
+                        <li><i class="fas fa-check"></i> Contact form included</li>
+                        <li><i class="fas fa-check"></i> Fast, reliable hosting</li>
+                        <li><i class="fas fa-check"></i> Monthly updates included</li>
+                        <li><i class="fas fa-check"></i> Support when you need it</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary" style="width: 100%; justify-content: center;">Get Started - $29/mo</a>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon"><i class="fas fa-envelope"></i></div>
-                    <h3>Custom Web/App Tools</h3>
-                    <p>Custom web applications and tools tailored to your business needs. From dashboards to internal tools, we build it.</p>
-                    <a href="#contact" class="service-link">Learn more <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon"><i class="fas fa-bullhorn"></i></div>
-                    <h3>Marketing Automation</h3>
-                    <p>Automated campaigns, lead nurturing, and social media scheduling. Let AI handle your marketing 24/7.</p>
-                    <a href="#contact" class="service-link">Learn more <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon"><i class="fas fa-tasks"></i></div>
-                    <h3>Admin Task Automation</h3>
-                    <p>Eliminate repetitive administrative work. Data entry, file organization, scheduling, and more automated.</p>
-                    <a href="#contact" class="service-link">Learn more <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon"><i class="fas fa-chart-pie"></i></div>
-                    <h3>Revenue Optimization</h3>
-                    <p>AI-powered analytics to identify revenue opportunities, pricing optimization, and automated upselling.</p>
-                    <a href="#contact" class="service-link">Learn more <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon"><i class="fas fa-headset"></i></div>
-                    <h3>AI Receptionist</h3>
-                    <p>24/7 virtual receptionist that answers calls, schedules appointments, and handles customer inquiries.</p>
-                    <a href="#contact" class="service-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                    <h3>Business Automation</h3>
+                    <div class="price">FREE<span> for 6 months</span></div>
+                    <p>Case study offer: We automate your follow-ups, bookings, and reviews. In exchange, you become a featured success story.</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> AI follow-ups (texts + emails)</li>
+                        <li><i class="fas fa-check"></i> Booking automation</li>
+                        <li><i class="fas fa-check"></i> Review request system</li>
+                        <li><i class="fas fa-check"></i> 24/7 lead capture</li>
+                        <li><i class="fas fa-check"></i> Custom workflows</li>
+                        <li><i class="fas fa-check"></i> Monthly strategy calls</li>
+                        <li><i class="fas fa-check"></i> After 6 months: $497-$997/mo</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary" style="width: 100%; justify-content: center;">Apply for Case Study</a>
                 </div>
             </div>
         </div>
     </section>
     
-    <section class="pricing" id="pricing">
+    <section class="how-it-works" id="how-it-works">
         <div class="container">
-            <h2 class="section-title">Custom Pricing for Custom Solutions</h2>
-            <div style="max-width:680px;margin:0 auto;text-align:center;">
-                <p style="font-size:1.15rem;color:var(--gray);line-height:1.8;margin-bottom:28px;">
-                    Every business we work with is different — different tools, different bottlenecks, different goals. So we don't do packages.
-                </p>
-                <p style="font-size:1.15rem;color:var(--gray);line-height:1.8;margin-bottom:28px;">
-                    We scope each project based on what you actually need and what it'll make you. Most clients invest between <strong style="color:var(--dark);">$500–$2,000/month</strong> depending on scope.
-                </p>
-                <p style="font-size:1.15rem;color:var(--gray);line-height:1.8;margin-bottom:40px;">
-                    Book a free 15-minute call and we'll give you a straight number — no fluff, no pressure.
-                </p>
-                <a href="#contact" class="btn btn-primary" style="font-size:1rem;padding:14px 36px;">Book a Free Call</a>
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps-grid">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>We Learn About You</h3>
+                    <p>Quick chat about your business, goals, and what success looks like for you.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>We Build It</h3>
+                    <p>Website in 3-5 days. Automation setup in 1-2 weeks. You review, we refine.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>You Grow</h3>
+                    <p>We handle the tech. You focus on running your business. Ongoing support included.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our Clients Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial">
+                    <p>"Finally got a website after putting it off for years. Jack made it stupid simple. Now I actually show up on Google."</p>
+                    <div class="testimonial-author">Mike T.</div>
+                    <div class="testimonial-company">Edmonton Plumbing</div>
+                </div>
+                <div class="testimonial">
+                    <p>"The automation saves me at least 10 hours a week. Follow-ups happen automatically now. Game changer."</p>
+                    <div class="testimonial-author">Sarah K.</div>
+                    <div class="testimonial-company">Calgary Dental Clinic</div>
+                </div>
+                <div class="testimonial">
+                    <p>"$29/month is insane value. My old web guy charged $200/month and never updated anything."</p>
+                    <div class="testimonial-author">Dan R.</div>
+                    <div class="testimonial-company">Red Deer Auto Repair</div>
+                </div>
             </div>
         </div>
     </section>
     
     <section class="contact" id="contact">
         <div class="container">
-            <h2 class="section-title">Get in Touch</h2>
-            <div class="contact-form">
-                <form id="contactForm">
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" id="name" placeholder="Your name">
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" id="email" placeholder="your@email.com">
-                    </div>
-                    <div class="form-group">
-                        <label>Company</label>
-                        <input type="text" id="company" placeholder="Your company">
-                    </div>
-                    <div class="form-group">
-                        <label>What do you need?</label>
-                        <textarea id="message" rows="4" placeholder="Tell us about your project..."></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;"><i class="fas fa-paper-plane"></i> Send Message</button>
-                </form>
+            <h2 class="section-title">Ready to Get Started?</h2>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-envelope"></i> jack@wildroseautomations.ca</p>
+                    <p><i class="fas fa-phone"></i> (403) 555-0199</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 4th Ave SW, Calgary, AB</p>
+                    <p style="margin-top: 24px; font-size: 0.9rem; opacity: 0.8;">Serving Alberta small businesses since 2020</p>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label>Your Name</label>
+                            <input type="text" id="name" placeholder="Your name">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="email" placeholder="you@company.com">
+                        </div>
+                        <div class="form-group">
+                            <label>What do you need?</label>
+                            <select id="service">
+                                <option value="">Select one</option>
+                                <option value="website">Website ($29/month)</option>
+                                <option value="automation">Automation (Case Study)</option>
+                                <option value="both">Both</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea id="message" rows="3" placeholder="Tell us about your business..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Send Message</button>
+                    </form>
+                </div>
             </div>
         </div>
     </section>
     
     <footer>
         <div class="container">
-            <p><i class="fas fa-bolt"></i> Wildrose Automations | Custom Business Solutions</p>
+            <p>Wildrose Automations | <a href="mailto:jack@wildroseautomations.ca">jack@wildroseautomations.ca</a> | Calgary, Alberta</p>
+            <p style="margin-top: 8px; font-size: 0.8rem;">Websites & Automation for Alberta Small Businesses</p>
         </div>
     </footer>
-<script>
-        // ── Chat Widget ──────────────────────────────────────────────────────────
-        (function() {
-            const style = document.createElement('style');
-            style.textContent = `
-                #chat-widget { position: fixed; bottom: 24px; right: 24px; z-index: 9999; font-family: 'Inter', sans-serif; }
-                #chat-bubble {
-                    width: 56px; height: 56px; border-radius: 50%;
-                    background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
-                    display: flex; align-items: center; justify-content: center;
-                    cursor: pointer; box-shadow: 0 4px 20px rgba(239,68,68,0.45);
-                    transition: transform 0.2s, box-shadow 0.2s;
-                }
-                #chat-bubble:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(239,68,68,0.55); }
-                #chat-bubble svg { width: 26px; height: 26px; fill: white; }
-                #chat-box {
-                    position: absolute; bottom: 70px; right: 0;
-                    width: 340px; background: #fff; border-radius: 16px;
-                    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
-                    overflow: hidden; display: none; flex-direction: column;
-                    animation: chatSlideIn 0.25s ease;
-                }
-                @keyframes chatSlideIn { from { opacity:0; transform: translateY(16px); } to { opacity:1; transform: translateY(0); } }
-                #chat-box.open { display: flex; }
-                #chat-header {
-                    background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
-                    padding: 16px 18px; color: white;
-                    display: flex; align-items: center; gap: 10px;
-                }
-                #chat-header .avatar {
-                    width: 36px; height: 36px; border-radius: 50%;
-                    background: rgba(255,255,255,0.25);
-                    display: flex; align-items: center; justify-content: center;
-                    font-size: 18px;
-                }
-                #chat-header .info { flex: 1; }
-                #chat-header .name { font-weight: 700; font-size: 0.95rem; }
-                #chat-header .status { font-size: 0.75rem; opacity: 0.85; display: flex; align-items: center; gap: 4px; }
-                #chat-header .dot { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; display: inline-block; }
-                #chat-close { cursor: pointer; opacity: 0.8; font-size: 20px; line-height: 1; }
-                #chat-close:hover { opacity: 1; }
-                #chat-messages {
-                    padding: 16px; flex: 1; overflow-y: auto; max-height: 260px;
-                    display: flex; flex-direction: column; gap: 10px;
-                    background: #f9fafb;
-                }
-                .msg { max-width: 85%; padding: 10px 13px; border-radius: 12px; font-size: 0.875rem; line-height: 1.45; }
-                .msg.bot { background: #fff; color: #111827; align-self: flex-start; box-shadow: 0 1px 4px rgba(0,0,0,0.08); border-bottom-left-radius: 3px; }
-                .msg.user { background: #EF4444; color: white; align-self: flex-end; border-bottom-right-radius: 3px; }
-                .msg-time { font-size: 0.68rem; opacity: 0.55; margin-top: 3px; }
-                .chat-btn {
-                    display: inline-block; margin-top: 8px; padding: 7px 14px;
-                    background: linear-gradient(135deg, #EF4444, #DC2626);
-                    color: white; border: none; border-radius: 20px;
-                    font-size: 0.8rem; font-weight: 600; cursor: pointer;
-                    font-family: inherit; transition: transform 0.15s;
-                }
-                .chat-btn:hover { transform: scale(1.04); }
-                #chat-input-row {
-                    display: flex; align-items: center; gap: 8px;
-                    padding: 12px 14px; border-top: 1px solid #f0f0f0; background: #fff;
-                }
-                #chat-input {
-                    flex: 1; border: 1.5px solid #e5e7eb; border-radius: 24px;
-                    padding: 9px 14px; font-size: 0.875rem; outline: none;
-                    transition: border-color 0.2s; font-family: inherit;
-                }
-                #chat-input:focus { border-color: #EF4444; }
-                #chat-input:disabled { background: #f9fafb; color: #9ca3af; }
-                #chat-send {
-                    width: 36px; height: 36px; border-radius: 50%;
-                    background: linear-gradient(135deg, #EF4444, #DC2626);
-                    border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
-                    transition: transform 0.15s; flex-shrink: 0;
-                }
-                #chat-send:hover { transform: scale(1.1); }
-                #chat-send svg { width: 16px; height: 16px; fill: white; }
-                /* Booking form inside chat */
-                #chat-booking-form {
-                    background: #fff; border-top: 1px solid #f0f0f0;
-                    padding: 14px; display: none; flex-direction: column; gap: 8px;
-                }
-                #chat-booking-form.show { display: flex; }
-                #chat-booking-form input, #chat-booking-form select {
-                    border: 1.5px solid #e5e7eb; border-radius: 8px;
-                    padding: 8px 12px; font-size: 0.85rem; outline: none;
-                    font-family: inherit; transition: border-color 0.2s;
-                }
-                #chat-booking-form input:focus, #chat-booking-form select:focus { border-color: #EF4444; }
-                #chat-book-submit {
-                    background: linear-gradient(135deg, #EF4444, #DC2626);
-                    color: white; border: none; border-radius: 8px;
-                    padding: 9px; font-size: 0.875rem; font-weight: 600;
-                    cursor: pointer; font-family: inherit; transition: opacity 0.2s;
-                }
-                #chat-book-submit:hover { opacity: 0.9; }
-                #chat-typing { display: none; padding: 0 16px 8px; align-items: center; gap: 5px; background: #f9fafb; }
-                #chat-typing span { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #9ca3af; animation: bounce 1.2s infinite; }
-                #chat-typing span:nth-child(2) { animation-delay: 0.2s; }
-                #chat-typing span:nth-child(3) { animation-delay: 0.4s; }
-                @keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
-            `;
-            document.head.appendChild(style);
 
-            // Add quick-reply chip styles
-            const extraStyle = document.createElement('style');
-            extraStyle.textContent = `
-                #chat-quick-replies {
-                    padding: 10px 14px 12px;
-                    background: #f9fafb;
-                    display: flex; gap: 8px; flex-wrap: wrap;
-                    border-top: 1px solid #f0f0f0;
-                }
-                .qr-chip {
-                    padding: 6px 13px; border-radius: 20px; font-size: 0.8rem;
-                    font-weight: 600; cursor: pointer; border: 1.5px solid #EF4444;
-                    color: #EF4444; background: #fff; font-family: inherit;
-                    transition: all 0.15s; white-space: nowrap;
-                }
-                .qr-chip:hover { background: #EF4444; color: white; }
-            `;
-            document.head.appendChild(extraStyle);
-
-            const widget = document.createElement('div');
-            widget.id = 'chat-widget';
-            widget.innerHTML = `
-                <div id="chat-box">
-                    <div id="chat-header">
-                        <div class="avatar">🌹</div>
-                        <div class="info">
-                            <div class="name">Wildrose Automations</div>
-                            <div class="status"><span class="dot"></span> We reply instantly</div>
-                        </div>
-                        <div id="chat-close">✕</div>
-                    </div>
-                    <div id="chat-messages">
-                        <div class="msg bot">Hey! 👋 I'm Rose, your Wildrose AI assistant.<br><br>How can I help you today?<div class="msg-time">Just now</div></div>
-                    </div>
-                    <div id="chat-typing"><span></span><span></span><span></span></div>
-                    <div id="chat-quick-replies">
-                        <button class="qr-chip" data-action="demo">📅 Book a Demo</button>
-                        <button class="qr-chip" data-action="services">⚙️ Our Services</button>
-                        <button class="qr-chip" data-action="pricing">💰 Pricing</button>
-                    </div>
-                    <div id="chat-booking-form">
-                        <div style="font-size:0.8rem;font-weight:600;color:#374151;margin-bottom:2px;">📅 Book your free 15-min demo</div>
-                        <input id="book-name" type="text" placeholder="Your name" />
-                        <input id="book-email" type="email" placeholder="Email address" />
-                        <input id="book-company" type="text" placeholder="Business name" />
-                        <select id="book-time">
-                            <option value="">Best time to reach you</option>
-                            <option>Morning (9am–12pm)</option>
-                            <option>Afternoon (12pm–4pm)</option>
-                            <option>Evening (4pm–7pm)</option>
-                        </select>
-                        <button id="chat-book-submit">Book My Demo →</button>
-                    </div>
-                    <div id="chat-input-row">
-                        <input id="chat-input" type="text" placeholder="Or just type a message..." autocomplete="off" />
-                        <button id="chat-send">
-                            <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-                        </button>
-                    </div>
-                </div>
-                <div id="chat-bubble">
-                    <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
-                </div>
-            `;
-            document.body.appendChild(widget);
-
-            const box        = document.getElementById('chat-box');
-            const bubble     = document.getElementById('chat-bubble');
-            const closeBtn   = document.getElementById('chat-close');
-            const input      = document.getElementById('chat-input');
-            const sendBtn    = document.getElementById('chat-send');
-            const messages   = document.getElementById('chat-messages');
-            const typing     = document.getElementById('chat-typing');
-            const bookForm   = document.getElementById('chat-booking-form');
-            const bookSubmit = document.getElementById('chat-book-submit');
-            const quickReplies = document.getElementById('chat-quick-replies');
-
-            let state = 'chat';
-
-            bubble.addEventListener('click', () => {
-                box.classList.toggle('open');
-                if (box.classList.contains('open')) input.focus();
-            });
-            closeBtn.addEventListener('click', () => box.classList.remove('open'));
-
-            // Quick reply chips
-            quickReplies.querySelectorAll('.qr-chip').forEach(btn => {
-                btn.addEventListener('click', () => handleQuickReply(btn.dataset.action));
-            });
-
-            function handleQuickReply(action) {
-                quickReplies.style.display = 'none';
-                if (action === 'demo') {
-                    addMsg('📅 Book a Demo', 'user');
-                    showTyping(700).then(() => {
-                        addMsg("Perfect! Fill in your details below and I'll get you locked in. 👇", 'bot');
-                        setTimeout(openBookingForm, 400);
-                    });
-                } else if (action === 'services') {
-                    addMsg('⚙️ Our Services', 'user');
-                    showTyping(800).then(() => {
-                        addMsg(`Here's what we do:<br><br>
-                            <strong>📲 AI Follow-Ups</strong> — Automated texts & emails after every job<br>
-                            <strong>📅 Booking Automation</strong> — Confirmations, reminders & reschedules<br>
-                            <strong>⭐ Review Requests</strong> — Auto-send after service completion<br>
-                            <strong>💬 Lead Capture</strong> — Respond to new inquiries 24/7<br>
-                            <strong>📊 Custom Workflows</strong> — Built around your business<br><br>
-                            Want to see it in action?`, 'bot');
-                        setTimeout(() => showDemoChip(), 600);
-                    });
-                } else if (action === 'pricing') {
-                    addMsg('💰 Pricing', 'user');
-                    showTyping(800).then(() => {
-                        addMsg(`Honestly, pricing varies quite a bit project to project — every business is different and we build custom solutions, not cookie-cutter packages.<br><br>The best way to get an accurate number is a quick 15-min demo. We'll figure out exactly what you need and give you a straight answer. No pressure, no pushy sales stuff.`, 'bot');
-                        setTimeout(() => showDemoChip(), 600);
-                    });
-                }
-            }
-
-            function showDemoChip() {
-                const wrap = document.createElement('div');
-                wrap.style.cssText = 'padding: 4px 16px 12px; background:#f9fafb;';
-                const btn = document.createElement('button');
-                btn.className = 'qr-chip';
-                btn.textContent = '📅 Book a Free Demo';
-                btn.onclick = () => {
-                    wrap.remove();
-                    addMsg('📅 Book a Free Demo', 'user');
-                    showTyping(600).then(() => {
-                        addMsg("Great choice! Fill in your details below 👇", 'bot');
-                        setTimeout(openBookingForm, 400);
-                    });
-                };
-                wrap.appendChild(btn);
-                messages.after(wrap);
-                messages.scrollTop = messages.scrollHeight;
-            }
-
-            function now() { return new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}); }
-
-            function addMsg(html, sender) {
-                return new Promise(resolve => {
-                    const d = document.createElement('div');
-                    d.className = 'msg ' + sender;
-                    d.innerHTML = html + `<div class="msg-time">${now()}</div>`;
-                    messages.appendChild(d);
-                    messages.scrollTop = messages.scrollHeight;
-                    resolve();
-                });
-            }
-
-            function showTyping(ms) {
-                typing.style.display = 'flex';
-                messages.scrollTop = messages.scrollHeight;
-                return new Promise(r => setTimeout(() => { typing.style.display = 'none'; r(); }, ms));
-            }
-
-            function openBookingForm() {
-                state = 'booking';
-                document.getElementById('chat-input-row').style.display = 'none';
-                bookForm.classList.add('show');
-                messages.scrollTop = messages.scrollHeight;
-            }
-
-            bookSubmit.addEventListener('click', async () => {
-                const name    = document.getElementById('book-name').value.trim();
-                const email   = document.getElementById('book-email').value.trim();
-                const company = document.getElementById('book-company').value.trim();
-                const time    = document.getElementById('book-time').value;
-
-                if (!name || !email) {
-                    document.getElementById('book-name').style.borderColor = name ? '#e5e7eb' : '#EF4444';
-                    document.getElementById('book-email').style.borderColor = email ? '#e5e7eb' : '#EF4444';
-                    return;
-                }
-
-                bookSubmit.textContent = 'Booking...';
-                bookSubmit.disabled = true;
-
-                try {
-                    await fetch('https://n8n.wildeautomations.com/webhook/2cb70635-d9e0-4b0e-9cf9-03d2cb007288', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            type: 'demo_booking',
-                            name, email, company, preferred_time: time,
-                            timestamp: new Date().toISOString(),
-                            source: 'chat_widget'
-                        })
-                    });
-                } catch(e) {}
-
-                // Show success
-                bookForm.classList.remove('show');
-                document.getElementById('chat-input-row').style.display = 'flex';
-                input.disabled = true;
-                sendBtn.disabled = true;
-                state = 'done';
-
-                await showTyping(800);
-                await addMsg(`✅ You're booked, ${name}! We'll reach out to <strong>${email}</strong> within the hour to confirm your demo time.<br><br>Talk soon! 🌹`, 'bot');
-            });
-
-            // Regular chat flow
-            const replies = [
-                { test: /automat|save time|manual|follow.?up/i, msg: "We handle that automatically — follow-ups, confirmations, reminders, all of it. Want to see it live?" },
-                { test: /price|cost|how much/i, msg: "Plans start at $297/month with a full setup. Most clients save more than that in the first week. Want a demo to see the ROI?" },
-                { test: /yes|sure|demo|book|interested|sounds good/i, msg: null, action: openBookingForm },
-                { test: /no|not (right now|interested)/i, msg: "No worries at all! Feel free to browse or reach out anytime. 😊" },
-            ];
-
-            async function sendMessage() {
-                if (state === 'booking' || state === 'done') return;
-                const text = input.value.trim();
-                if (!text) return;
-                input.value = '';
-                await addMsg(text, 'user');
-                await showTyping(900 + Math.random() * 500);
-
-                const match = replies.find(r => r.test.test(text));
-                if (match) {
-                    if (match.action) { match.action(); return; }
-                    await addMsg(match.msg, 'bot');
-                } else {
-                    await addMsg("Great question! Our AI handles that automatically for most businesses. Want to book a quick 15-min demo to see exactly how?", 'bot');
-                }
-            }
-
-            sendBtn.addEventListener('click', sendMessage);
-            input.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
-        })();
-
-        // ── Contact Form ─────────────────────────────────────────────────────────
+    <script>
         document.getElementById('contactForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
-            const data = {
+            var data = {
                 name: document.getElementById('name').value,
                 email: document.getElementById('email').value,
-                company: document.getElementById('company').value,
+                service: document.getElementById('service').value,
                 message: document.getElementById('message').value,
                 timestamp: new Date().toISOString()
             };
-            
             try {
                 await fetch('https://n8n.wildeautomations.com/webhook/2cb70635-d9e0-4b0e-9cf9-03d2cb007288', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
-                
-                alert('Message sent! We\'ll be in touch soon.');
+                alert('Message sent! We will be in touch soon.');
                 this.reset();
-            } catch (err) {
-                alert('Error sending message. Please try again.');
+            } catch(err) {
+                alert('Error sending message. Please email us directly.');
             }
         });
     </script>
