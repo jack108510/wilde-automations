@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wildrose Content Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { margin-bottom: 10px; color: #1B4332; }
+        .subtitle { color: #666; margin-bottom: 30px; }
+        
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px; }
+        .stat-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .stat-number { font-size: 2rem; font-weight: 700; color: #1B4332; }
+        .stat-label { color: #666; font-size: 0.9rem; }
+        
+        .day-section { background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .day-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #f0f0f0; }
+        .day-name { font-size: 1.3rem; font-weight: 700; color: #1B4332; }
+        
+        .posts-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        .post-card { border: 2px solid #e0e0e0; border-radius: 8px; overflow: hidden; transition: all 0.2s; }
+        .post-card.approved { border-color: #4ade80; background: #f0fdf4; }
+        .post-card.rejected { border-color: #f87171; background: #fef2f2; opacity: 0.6; }
+        
+        .post-image { width: 100%; height: 200px; object-fit: cover; background: #1B4332; }
+        .post-time { padding: 8px 12px; background: #f8f8f8; font-size: 0.85rem; font-weight: 600; color: #666; }
+        .post-message { padding: 8px 12px; font-size: 0.8rem; color: #333; background: #fafafa; }
+        
+        .post-actions { display: flex; gap: 8px; padding: 10px; }
+        .btn { flex: 1; padding: 8px; border: none; border-radius: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .btn-approve { background: #1B4332; color: white; }
+        .btn-approve:hover { background: #0d3222; }
+        .btn-reject { background: #fee2e2; color: #dc2626; }
+        .btn-reject:hover { background: #fecaca; }
+        .btn-pending { background: #f3f4f6; color: #6b7280; }
+        
+        .bulk-actions { display: flex; gap: 10px; margin-bottom: 20px; }
+        .btn-bulk { padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        
+        @media (max-width: 768px) {
+            .posts-grid { grid-template-columns: repeat(2, 1fr); }
+            .stats { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌹 Wildrose Content Dashboard</h1>
+        <p class="subtitle">Review and approve scheduled Facebook posts</p>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="approved-count">0</div>
+                <div class="stat-label">Approved</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="pending-count">28</div>
+                <div class="stat-label">Pending</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="rejected-count">0</div>
+                <div class="stat-label">Rejected</div>
+            </div>
+        </div>
+        
+        <div class="bulk-actions">
+            <button class="btn btn-approve btn-bulk" onclick="approveAll()">✓ Approve All</button>
+            <button class="btn btn-reject btn-bulk" onclick="rejectAll()">✗ Reject All</button>
+            <button class="btn btn-pending btn-bulk" onclick="resetAll()">↻ Reset All</button>
+        </div>
+        
+        <div id="content-grid"></div>
+    </div>
+
+    <script>
+        const GRAPHICS_BASE = 'social-graphics/';
+        
+        const schedule = {
+            'Monday': [
+                { time: '8:00 AM', file: 'mon-8am.png', message: 'Morning tip for Alberta business owners 💡' },
+                { time: '12:00 PM', file: 'mon-12pm.png', message: 'Lunch break offer 🍽️' },
+                { time: '4:00 PM', file: 'mon-4pm.png', message: 'Afternoon check-in 👋' },
+                { time: '7:00 PM', file: 'mon-7pm.png', message: 'Evening story time 🌙' }
+            ],
+            'Tuesday': [
+                { time: '8:00 AM', file: 'tue-8am.png', message: 'Morning tip for Alberta business owners 💡' },
+                { time: '12:00 PM', file: 'tue-12pm.png', message: 'Lunch break offer 🍽️' },
+                { time: '4:00 PM', file: 'tue-4pm.png', message: 'Afternoon check-in 👋' },
+                { time: '7:00 PM', file: 'tue-7pm.png', message: 'Evening story time 🌙' }
+            ],
+            'Wednesday': [
+                { time: '8:00 AM', file: 'wed-8am.png', message: 'Morning tip for Alberta business owners 💡' },
+                { time: '12:00 PM', file: 'wed-12pm.png', message: 'Lunch break offer 🍽️' },
+                { time: '4:00 PM', file: 'wed-4pm.png', message: 'Afternoon check-in 👋' },
+                { time: '7:00 PM', file: 'wed-7pm.png', message: 'Evening story time 🌙' }
+            ],
+            'Thursday': [
+                { time: '8:00 AM', file: 'thu-8am.png', message: 'Morning tip for Alberta business owners 💡' },
+                { time: '12:00 PM', file: 'thu-12pm.png', message: 'Lunch break offer 🍽️' },
+                { time: '4:00 PM', file: 'thu-4pm.png', message: 'Afternoon check-in 👋' },
+                { time: '7:00 PM', file: 'thu-7pm.png', message: 'Evening story time 🌙' }
+            ],
+            'Friday': [
+                { time: '8:00 AM', file: 'fri-8am.png', message: 'Morning tip for Alberta business owners 💡' },
+                { time: '12:00 PM', file: 'fri-12pm.png', message: 'Lunch break offer 🍽️' },
+                { time: '4:00 PM', file: 'fri-4pm.png', message: 'Afternoon check-in 👋' },
+                { time: '7:00 PM', file: 'fri-7pm.png', message: 'Evening story time 🌙' }
+            ],
+            'Saturday': [
+                { time: '8:00 AM', file: 'sat-8am.png', message: 'Morning tip for Alberta business owners 💡' },
+                { time: '12:00 PM', file: 'sat-12pm.png', message: 'Lunch break offer 🍽️' },
+                { time: '4:00 PM', file: 'sat-4pm.png', message: 'Afternoon check-in 👋' },
+                { time: '7:00 PM', file: 'sat-7pm.png', message: 'Evening story time 🌙' }
+            ],
+            'Sunday': [
+                { time: '8:00 AM', file: 'sun-8am.png', message: 'Morning tip for Alberta business owners 💡' },
+                { time: '12:00 PM', file: 'sun-12pm.png', message: 'Lunch break offer 🍽️' },
+                { time: '4:00 PM', file: 'sun-4pm.png', message: 'Afternoon check-in 👋' },
+                { time: '7:00 PM', file: 'sun-7pm.png', message: 'Evening story time 🌙' }
+            ]
+        };
+
+        // Load state from server
+        let postStates = {};
+        
+        async function loadState() {
+            try {
+                const res = await fetch('/api/approvals');
+                postStates = await res.json();
+            } catch (err) {
+                console.log('No saved state, starting fresh');
+                postStates = {};
+            }
+            render();
+        }
+
+        async function saveState() {
+            try {
+                await fetch('/api/approvals', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(postStates)
+                });
+                updateStats();
+            } catch (err) {
+                console.error('Failed to save:', err);
+            }
+        }
+
+        function updateStats() {
+            const posts = Object.values(postStates);
+            document.getElementById('approved-count').textContent = posts.filter(s => s === 'approved').length;
+            document.getElementById('rejected-count').textContent = posts.filter(s => s === 'rejected').length;
+            document.getElementById('pending-count').textContent = 28 - posts.length;
+        }
+
+        function setPostState(file, state) {
+            if (state === 'pending') {
+                delete postStates[file];
+            } else {
+                postStates[file] = state;
+            }
+            saveState();
+            render();
+        }
+
+        function approveAll() {
+            Object.keys(schedule).forEach(day => {
+                schedule[day].forEach(post => {
+                    postStates[post.file] = 'approved';
+                });
+            });
+            saveState();
+            render();
+        }
+
+        function rejectAll() {
+            Object.keys(schedule).forEach(day => {
+                schedule[day].forEach(post => {
+                    postStates[post.file] = 'rejected';
+                });
+            });
+            saveState();
+            render();
+        }
+
+        function resetAll() {
+            postStates = {};
+            saveState();
+            render();
+        }
+
+        function render() {
+            const grid = document.getElementById('content-grid');
+            grid.innerHTML = '';
+
+            Object.keys(schedule).forEach(day => {
+                const daySection = document.createElement('div');
+                daySection.className = 'day-section';
+                
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'day-header';
+                dayHeader.innerHTML = `<div class="day-name">${day}</div>`;
+                daySection.appendChild(dayHeader);
+
+                const postsGrid = document.createElement('div');
+                postsGrid.className = 'posts-grid';
+
+                schedule[day].forEach(post => {
+                    const state = postStates[post.file] || 'pending';
+                    const card = document.createElement('div');
+                    card.className = `post-card ${state}`;
+                    
+                    card.innerHTML = `
+                        <img src="${GRAPHICS_BASE}${post.file}" alt="${post.file}" class="post-image" onerror="this.style.background='#1B4332'">
+                        <div class="post-time">${post.time}</div>
+                        <div class="post-message">${post.message}</div>
+                        <div class="post-actions">
+                            <button class="btn ${state === 'approved' ? 'btn-approved' : 'btn-approve'}" onclick="setPostState('${post.file}', 'approved')">
+                                ${state === 'approved' ? '✓ Approved' : '✓ Approve'}
+                            </button>
+                            <button class="btn ${state === 'rejected' ? 'btn-rejected' : 'btn-reject'}" onclick="setPostState('${post.file}', 'rejected')">
+                                ${state === 'rejected' ? '✗ Rejected' : '✗ Reject'}
+                            </button>
+                        </div>
+                    `;
+                    
+                    postsGrid.appendChild(card);
+                });
+
+                daySection.appendChild(postsGrid);
+                grid.appendChild(daySection);
+            });
+
+            updateStats();
+        }
+
+        // Initial render
+        render();
+    </script>
+</body>
+</html>
